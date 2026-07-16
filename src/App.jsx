@@ -35,9 +35,9 @@ function App() {
                 Apply for a Rental
               </Link>
 
-              <a href="#maintenance" className="button secondary">
+              <Link to="/maintenance" className="button secondary">
                 Request Maintenance
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -103,9 +103,9 @@ function App() {
                 emergency services first.
               </p>
 
-              <a href="#contact" className="button primary darkButton">
+              <Link to="/maintenance" className="button primary darkButton">
                 Submit Maintenance Request
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -135,8 +135,9 @@ function App() {
               <div className="faqItem">
                 <h3>How do tenants request repairs?</h3>
                 <p>
-                  Tenants can use the maintenance request section to describe
-                  the issue and provide contact details.
+                  Current tenants can visit our maintenance page and submit a
+                  request describing the issue and providing their contact
+                  information.
                 </p>
               </div>
 
@@ -157,7 +158,7 @@ function App() {
             <h2>Get in touch with Evergreen Properties.</h2>
 
             <p>
-              For rental inquiries, tenant questions, or maintenance requests,
+              For rental inquiries, tenant questions, or general questions,
               contact us below.
             </p>
 
