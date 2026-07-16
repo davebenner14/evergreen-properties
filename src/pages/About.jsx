@@ -52,20 +52,29 @@ function About() {
           <div className="sectionInner twoCol">
             <div>
               <p className="eyebrow dark">Our Properties</p>
-              <h2>Practical homes in established communities.</h2>
+              <h2>Local roots. A long-term commitment to our communities.</h2>
             </div>
 
             <div>
               <p>
-                Our portfolio is focused on residential rental properties in
-                the Niagara and Fort Erie areas.
+                Our roots are here in the Niagara and Fort Erie region. Having
+                grown up in the area, we know these communities and are proud
+                to continue investing in the places we know and call home.
+              </p>
+
+              <p>
+                Our portfolio is focused on residential rental properties
+                throughout the region. We take a long-term approach to
+                ownership, with a focus on maintaining our homes responsibly
+                and contributing positively to the neighbourhoods they are
+                part of.
               </p>
 
               <p>
                 We are not focused on luxury rentals or large-scale property
                 management. Our goal is straightforward: provide clean,
-                well-maintained homes and care for our properties with a
-                long-term perspective.
+                well-maintained homes and care for our properties with the same
+                pride we have for the communities around them.
               </p>
             </div>
           </div>
