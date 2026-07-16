@@ -1,73 +1,305 @@
 /* =========================
-   SECTION COLOUR ROTATION
+   ABOUT PAGE
 ========================= */
 
-/* Hero - Soft Warm Beige */
-.aboutPageHero {
-  padding: 150px 0 90px;
-  background: #efe8dc;
-  border-bottom: none;
-}
-
-/* Our Approach - Evergreen Green */
-.aboutSection {
-  background: #0b4d3a;
-  color: #ffffff;
-}
-
-.aboutSection h2,
-.aboutSection .eyebrow {
-  color: #ffffff;
-}
-
-.aboutSection p {
-  color: rgba(255, 255, 255, 0.82);
-}
-
-
-/* Our Properties - Warm Beige */
-.cardSection {
-  background: #e8e1d4;
-}
-
-/* White content card inside beige section */
-.cardSection .sectionInner {
+.aboutPage {
   background: #ffffff;
-  padding: 70px;
-  border-radius: 28px;
+}
 
-  box-shadow:
-    0 20px 60px rgba(35, 53, 46, 0.07),
-    0 2px 10px rgba(35, 53, 46, 0.04);
+.aboutContainer {
+  width: min(1180px, calc(100% - 80px));
+  margin: 0 auto;
 }
 
 
-/* Our Commitment - Clean Off White */
-.maintenanceSection {
-  background: #f7f8f5;
-}
+/* =========================
+   SHARED TYPOGRAPHY
+========================= */
 
-.maintenanceSection h2,
-.maintenanceSection .eyebrow {
+.aboutEyebrow {
+  margin: 0 0 18px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
   color: #0b4d3a;
 }
 
-.maintenanceSection p {
-  color: #68726d;
+.aboutGrid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.9fr) minmax(400px, 1.1fr);
+  gap: 100px;
+  align-items: start;
+}
+
+.aboutHeadingColumn h2 {
+  margin: 0;
+  max-width: 520px;
+
+  font-size: clamp(2.7rem, 4.2vw, 4.4rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+
+  color: #0b4d3a;
+}
+
+.aboutContentColumn p {
+  margin: 0;
+
+  font-size: 1.08rem;
+  line-height: 1.85;
+
+  color: #66706b;
+}
+
+.aboutContentColumn p + p {
+  margin-top: 24px;
 }
 
 
-/* Contact - Evergreen Green */
-.aboutPageHero ~ .contactSection {
-  padding: 85px 0;
+/* =========================
+   HERO
+   WARM BEIGE
+========================= */
+
+.aboutHero {
+  padding: 155px 0 95px;
+
+  background: #eee7da;
+}
+
+.aboutHero h1 {
+  max-width: 950px;
+  margin: 0;
+
+  font-size: clamp(3rem, 5.3vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+
+  color: #0b4d3a;
+}
+
+.aboutHeroText {
+  max-width: 700px;
+  margin: 30px 0 0;
+
+  font-size: 1.15rem;
+  line-height: 1.8;
+
+  color: #66706b;
+}
+
+
+/* =========================
+   LOCAL ROOTS
+   WHITE
+========================= */
+
+.aboutLocal {
+  padding: 105px 0;
+
+  background: #ffffff;
+}
+
+
+/* =========================
+   OUR APPROACH
+   EVERGREEN GREEN
+========================= */
+
+.aboutApproach {
+  padding: 105px 0;
+
   background: #0b4d3a;
 }
 
-.aboutPageHero ~ .contactSection h2,
-.aboutPageHero ~ .contactSection .eyebrow {
+.aboutApproach .aboutEyebrow {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.aboutApproach .aboutHeadingColumn h2 {
   color: #ffffff;
 }
 
-.aboutPageHero ~ .contactSection p {
-  color: rgba(255, 255, 255, 0.82);
+.aboutApproach .aboutContentColumn p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+
+/* =========================
+   OUR COMMITMENT
+   WARM BEIGE
+========================= */
+
+.aboutCommitment {
+  padding: 100px 0;
+
+  background: #e8e1d4;
+}
+
+.aboutCommitmentCard {
+  padding: 75px;
+
+  background: #ffffff;
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 22px 60px rgba(35, 53, 46, 0.07),
+    0 3px 12px rgba(35, 53, 46, 0.03);
+}
+
+.aboutCommitment .button {
+  margin-top: 30px;
+}
+
+
+/* =========================
+   CONTACT
+   EVERGREEN GREEN
+========================= */
+
+.aboutContact {
+  padding: 90px 0;
+
+  background: #0b4d3a;
+}
+
+.aboutContact .aboutEyebrow {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.aboutContact h2 {
+  max-width: 850px;
+  margin: 0;
+
+  font-size: clamp(2.8rem, 4.6vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+
+  color: #ffffff;
+}
+
+.aboutContactText {
+  max-width: 680px;
+  margin: 25px 0 30px;
+
+  font-size: 1.08rem;
+  line-height: 1.75;
+
+  color: rgba(255, 255, 255, 0.8);
+}
+
+
+/* =========================
+   BUTTON MOTION
+========================= */
+
+.aboutPage .button {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.aboutPage .button:hover {
+  transform: translateY(-2px);
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+  .aboutContainer {
+    width: min(100% - 48px, 1180px);
+  }
+
+  .aboutHero {
+    padding: 135px 0 75px;
+  }
+
+  .aboutLocal,
+  .aboutApproach,
+  .aboutCommitment {
+    padding: 75px 0;
+  }
+
+  .aboutGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .aboutHeadingColumn h2 {
+    max-width: 700px;
+  }
+
+  .aboutContentColumn {
+    max-width: 700px;
+  }
+
+  .aboutCommitmentCard {
+    padding: 50px;
+  }
+
+  .aboutContact {
+    padding: 75px 0;
+  }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  .aboutContainer {
+    width: calc(100% - 36px);
+  }
+
+  .aboutHero {
+    padding: 115px 0 60px;
+  }
+
+  .aboutHero h1 {
+    font-size: clamp(2.6rem, 12vw, 3.8rem);
+  }
+
+  .aboutHeroText {
+    margin-top: 24px;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .aboutLocal,
+  .aboutApproach,
+  .aboutCommitment {
+    padding: 60px 0;
+  }
+
+  .aboutGrid {
+    gap: 28px;
+  }
+
+  .aboutHeadingColumn h2 {
+    font-size: clamp(2.4rem, 11vw, 3.3rem);
+  }
+
+  .aboutContentColumn p {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .aboutCommitmentCard {
+    padding: 35px 25px;
+    border-radius: 20px;
+  }
+
+  .aboutContact {
+    padding: 65px 0;
+  }
 }
