@@ -1,0 +1,349 @@
+/* =========================
+   APPLY PAGE
+========================= */
+
+.applyPage {
+  background: #f7f5f0;
+}
+
+
+/* =========================
+   APPLY HERO
+========================= */
+
+.applyPageHero {
+  padding: 170px 0 100px;
+  background: #e8e1d4;
+  position: relative;
+  overflow: hidden;
+}
+
+.applyPageHero::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: rgba(11, 77, 58, 0.06);
+  top: -160px;
+  right: -100px;
+  pointer-events: none;
+}
+
+.applyPageHero .sectionInner {
+  position: relative;
+  z-index: 1;
+}
+
+.applyPageHero h1 {
+  max-width: 800px;
+  margin: 16px 0 24px;
+
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+
+  color: #173d32;
+}
+
+.applyHeroText {
+  max-width: 700px;
+
+  font-size: 1.15rem;
+  line-height: 1.75;
+
+  color: #4f5e58;
+}
+
+
+/* =========================
+   INTRO / BEFORE YOU APPLY
+========================= */
+
+.applyIntroSection {
+  background: #0b4d3a;
+}
+
+.applyIntroSection .eyebrow {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.applyIntroSection h2 {
+  color: #ffffff;
+  max-width: 600px;
+}
+
+.applyIntroSection p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.applyIntroSection .twoCol {
+  gap: 100px;
+}
+
+
+/* =========================
+   APPLICATION FORM SECTION
+========================= */
+
+.applyFormSection {
+  background: #e8e1d4;
+}
+
+.applyFormSection .sectionInner {
+  background: #ffffff;
+
+  padding: 80px;
+  border-radius: 30px;
+
+  box-shadow:
+    0 24px 70px rgba(35, 53, 46, 0.1);
+}
+
+.applyFormHeader {
+  max-width: 700px;
+  margin-bottom: 50px;
+}
+
+.applyFormHeader h2 {
+  margin: 12px 0 18px;
+
+  font-size: clamp(2.3rem, 4vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+
+  color: #173d32;
+}
+
+.applyFormHeader p {
+  max-width: 620px;
+  color: #65716c;
+}
+
+
+/* =========================
+   FORM PLACEHOLDER
+   Remove when actual form is added
+========================= */
+
+.applyFormPlaceholder {
+  min-height: 320px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px dashed rgba(11, 77, 58, 0.18);
+  border-radius: 20px;
+
+  background: #f8f7f3;
+}
+
+.applyFormPlaceholder p {
+  margin: 0;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  color: #7b8782;
+}
+
+
+/* =========================
+   FUTURE FORM STYLES
+========================= */
+
+.applyForm {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.applyFormGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.applyFormGroup.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.applyFormGroup label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #173d32;
+}
+
+.applyFormGroup input,
+.applyFormGroup select,
+.applyFormGroup textarea {
+  width: 100%;
+  padding: 16px 18px;
+
+  font-family: inherit;
+  font-size: 1rem;
+
+  color: #243b33;
+  background: #f8f7f3;
+
+  border: 1px solid rgba(11, 77, 58, 0.15);
+  border-radius: 12px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.applyFormGroup input:focus,
+.applyFormGroup select:focus,
+.applyFormGroup textarea:focus {
+  background: #ffffff;
+  border-color: #0b4d3a;
+
+  box-shadow:
+    0 0 0 4px rgba(11, 77, 58, 0.08);
+}
+
+.applyFormGroup textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+
+/* =========================
+   CONTACT / QUESTIONS
+========================= */
+
+.applyContactSection {
+  background: #f7f5f0;
+}
+
+.applyContactSection .sectionInner {
+  max-width: 850px;
+  text-align: center;
+}
+
+.applyContactSection h2 {
+  margin: 12px auto 20px;
+
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+
+  color: #173d32;
+}
+
+.applyContactSection p:not(.eyebrow) {
+  max-width: 650px;
+  margin: 0 auto 32px;
+
+  color: #65716c;
+}
+
+
+/* =========================
+   BACK LINK
+========================= */
+
+.applyBackSection {
+  padding: 35px 0;
+  background: #f7f5f0;
+
+  border-top: 1px solid rgba(11, 77, 58, 0.08);
+}
+
+.applyBackLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  color: #0b4d3a;
+  text-decoration: none;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.applyBackLink:hover {
+  opacity: 0.7;
+  transform: translateX(-3px);
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+  .applyPageHero {
+    padding: 140px 0 75px;
+  }
+
+  .applyPageHero h1 {
+    font-size: clamp(2.8rem, 10vw, 4.5rem);
+  }
+
+  .applyIntroSection .twoCol {
+    gap: 45px;
+  }
+
+  .applyFormSection .sectionInner {
+    padding: 50px 35px;
+    border-radius: 22px;
+  }
+
+  .applyForm {
+    grid-template-columns: 1fr;
+  }
+
+  .applyFormGroup.fullWidth {
+    grid-column: auto;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .applyPageHero {
+    padding: 120px 0 60px;
+  }
+
+  .applyPageHero h1 {
+    font-size: 2.8rem;
+  }
+
+  .applyHeroText {
+    font-size: 1rem;
+  }
+
+  .applyFormSection .sectionInner {
+    padding: 35px 22px;
+    border-radius: 18px;
+  }
+
+  .applyFormHeader {
+    margin-bottom: 35px;
+  }
+
+  .applyFormPlaceholder {
+    min-height: 240px;
+  }
+
+  .applyContactSection .sectionInner {
+    text-align: left;
+  }
+
+  .applyContactSection p:not(.eyebrow) {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

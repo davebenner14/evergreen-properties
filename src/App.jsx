@@ -31,9 +31,9 @@ function App() {
             </p>
 
             <div className="heroButtons">
-              <a href="#apply" className="button primary">
+              <Link to="/apply" className="button primary">
                 Apply for a Rental
-              </a>
+              </Link>
 
               <a href="#maintenance" className="button secondary">
                 Request Maintenance
@@ -79,9 +79,9 @@ function App() {
               upcoming rental opportunities.
             </p>
 
-            <a href="#contact" className="button primary darkButton">
+            <Link to="/apply" className="button primary darkButton">
               Start Rental Inquiry
-            </a>
+            </Link>
           </div>
         </section>
 
@@ -127,8 +127,8 @@ function App() {
               <div className="faqItem">
                 <h3>How do I apply?</h3>
                 <p>
-                  Use the rental inquiry section to submit your information and
-                  interest in available or upcoming rentals.
+                  Visit our rental application page to submit your information
+                  and interest in available or upcoming rental opportunities.
                 </p>
               </div>
 
