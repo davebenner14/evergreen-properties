@@ -347,3 +347,53 @@
     margin-right: 0;
   }
 }
+
+/* =========================
+   AIRTABLE FORM
+========================= */
+
+.airtableFormWrapper {
+  position: relative;
+  width: 100%;
+
+  background: #ffffff;
+
+  border: 1px solid rgba(11, 77, 58, 0.1);
+  border-radius: 20px;
+
+  overflow: hidden;
+}
+
+.airtableApplyForm {
+  display: block;
+  width: 100%;
+  min-height: 900px;
+
+  border: none;
+  background: transparent;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  .airtableFormWrapper {
+    border-radius: 16px;
+  }
+
+  .airtableApplyForm {
+    min-height: 1000px;
+  }
+}
+
+@media (max-width: 600px) {
+  .airtableFormWrapper {
+    border-radius: 12px;
+  }
+
+  .airtableApplyForm {
+    min-height: 1100px;
+  }
+}
