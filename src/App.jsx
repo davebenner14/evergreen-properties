@@ -1,21 +1,11 @@
 import "./App.css";
+import { Link } from "react-router-dom";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <div className="site">
-      <nav className="navbar">
-        <a href="/" className="navLogo">
-          <img src="/logos/EPHorLogo.png" alt="Evergreen Properties" />
-        </a>
-
-        <div className="navLinks">
-          <a href="#about">About</a>
-          <a href="#apply">Apply</a>
-          <a href="#maintenance">Maintenance</a>
-          <a href="#faq">FAQ</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </nav>
+      <Navbar />
 
       <main>
         <section className="hero">
@@ -71,6 +61,10 @@ function App() {
                 properly cared for — for both tenants and the surrounding
                 community.
               </p>
+
+              <Link to="/about" className="button primary darkButton">
+                Learn More About Us
+              </Link>
             </div>
           </div>
         </section>
@@ -79,6 +73,7 @@ function App() {
           <div className="sectionInner">
             <p className="eyebrow dark">Tenant Inquiry</p>
             <h2>Looking for a rental?</h2>
+
             <p>
               Submit an application or inquiry to be considered for current and
               upcoming rental opportunities.
@@ -160,12 +155,16 @@ function App() {
           <div className="sectionInner contactBox">
             <p className="eyebrow">Contact</p>
             <h2>Get in touch with Evergreen Properties.</h2>
+
             <p>
               For rental inquiries, tenant questions, or maintenance requests,
               contact us below.
             </p>
 
-            <a href="mailto:info@evergreenproperties.ca" className="button secondary">
+            <a
+              href="mailto:info@evergreenproperties.ca"
+              className="button secondary"
+            >
               Email Evergreen Properties
             </a>
           </div>
