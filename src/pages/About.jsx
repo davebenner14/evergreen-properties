@@ -1,4 +1,5 @@
 import "../App.css";
+import "./About.css";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
@@ -63,18 +64,24 @@ function About() {
               </p>
 
               <p>
-                Our portfolio is focused on residential rental properties
-                throughout the region. We take a long-term approach to
-                ownership, with a focus on maintaining our homes responsibly
-                and contributing positively to the neighbourhoods they are
-                part of.
+                Evergreen Properties is a small, locally focused rental
+                business with a portfolio of duplex and triplex properties in
+                Fort Erie and Niagara Falls. We take a hands-on, long-term
+                approach to ownership and property management.
               </p>
 
               <p>
-                We are not focused on luxury rentals or large-scale property
-                management. Our goal is straightforward: provide clean,
-                well-maintained homes and care for our properties with the same
-                pride we have for the communities around them.
+                Many of our properties are older homes that require ongoing
+                care, maintenance, and improvement. We are committed to
+                investing in them responsibly over time, addressing issues as
+                they arise, and continuing to improve the homes we own.
+              </p>
+
+              <p>
+                Our goal is straightforward: provide practical, safe, and
+                well-cared-for rental homes while being responsible property
+                owners and good members of the communities where our
+                properties are located.
               </p>
             </div>
           </div>

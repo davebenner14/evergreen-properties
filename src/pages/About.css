@@ -1,0 +1,52 @@
+/* =========================
+   SECTION COLOUR ROTATION
+========================= */
+
+/* Hero - Off White */
+.aboutPageHero {
+  background: #f7f8f5;
+}
+
+
+/* Our Approach - Evergreen Green */
+.aboutSection {
+  background: #0b4d3a;
+}
+
+.aboutSection h2,
+.aboutSection .eyebrow {
+  color: #ffffff;
+}
+
+.aboutSection p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+
+/* Our Properties - Warm Beige */
+.cardSection {
+  background: #e8e1d4;
+}
+
+.cardSection .sectionInner {
+  background: #ffffff;
+  padding: 70px;
+  border-radius: 28px;
+
+  box-shadow:
+    0 20px 60px rgba(35, 53, 46, 0.06),
+    0 2px 10px rgba(35, 53, 46, 0.03);
+}
+
+
+/* Our Commitment - Off White */
+.maintenanceSection {
+  background: #f7f8f5;
+}
+
+
+/* Contact - Evergreen Green */
+.aboutPageHero ~ .contactSection {
+  padding: 80px 0;
+  background: #0b4d3a;
+}

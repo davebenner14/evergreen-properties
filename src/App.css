@@ -46,8 +46,10 @@ body {
 }
 
 .navLogo img {
-  height: 54px;
+  width: 300px;
+  height: auto;
   display: block;
+  transform: translateY(7px);
 }
 
 .navLinks {
@@ -55,6 +57,11 @@ body {
   gap: 32px;
   align-items: center;
 }
+.navLogo {
+  display: flex;
+  align-items: center;
+}
+
 
 .navLinks a {
   color: var(--charcoal);
