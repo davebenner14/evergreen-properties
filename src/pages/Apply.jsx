@@ -70,14 +70,15 @@ function Apply() {
             </div>
 
             <div className="airtableFormWrapper">
-              <iframe
-                className="airtable-embed airtableApplyForm"
-                src="https://airtable.com/embed/appmZFilPYR2vMKWB/pagP6nwG2S0tSYw6M/form"
-                frameBorder="0"
-                width="100%"
-                height="900"
-                title="Evergreen Properties Rental Application"
-              />
+   <iframe
+  class="airtable-embed"
+  src="https://airtable.com/embed/appmZFilPYR2vMKWB/pagP6nwG2S0tSYw6M/form"
+  frameborder="0"
+  onmousewheel=""
+  width="100%"
+  height="533"
+  style="background: transparent; border: 1px solid #ccc;"
+></iframe>
             </div>
           </div>
         </section>
