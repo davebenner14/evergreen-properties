@@ -16,11 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/about" element={<About />} />
         <Route path="/apply" element={<Apply />} />
         <Route path="/maintenance" element={<Maintenance />} />
-        <Route
-          path="/tenant-application"
-          element={<TenantApplication />}
-        />
-      </Routes>
+        <Route path="/tenant-application" element={<TenantApplication />} />      </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );
