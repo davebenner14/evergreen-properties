@@ -1,6 +1,7 @@
 import "./App.css";
 import { Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import LocalNews from "./components/LocalNews";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <div className="sectionInner twoCol">
             <div>
               <p className="eyebrow dark">About Evergreen</p>
+
               <h2>Residential properties cared for with pride.</h2>
             </div>
 
@@ -86,108 +88,37 @@ function App() {
           </div>
         </section>
 
-        <section
-          id="tenant-application"
-          className="section maintenanceSection"
-        >
+        <section id="maintenance" className="section maintenanceSection">
           <div className="sectionInner twoCol">
             <div>
-              <p className="eyebrow dark">Tenant Application</p>
-              <h2>Ready to complete your application?</h2>
+              <p className="eyebrow dark">Maintenance</p>
+
+              <h2>Need something fixed?</h2>
             </div>
 
             <div>
               <p>
-                Complete the Evergreen Properties tenant application with your
-                personal, employment, rental, and reference information.
+                Current tenants can submit maintenance requests for repairs,
+                property issues, or general concerns.
               </p>
 
               <p className="note">
-                Please complete all required fields and ensure the information
-                provided is accurate before submitting your application.
+                For fire, flooding, gas leaks, or immediate danger, contact
+                emergency services first.
               </p>
 
-              <Link
-                to="/tenant-application"
-                className="button primary darkButton"
-              >
-                Complete Tenant Application
+              <Link to="/maintenance" className="button primary darkButton">
+                Submit Maintenance Request
               </Link>
             </div>
           </div>
         </section>
 
-        <section id="maintenance" className="section cardSection">
-          <div className="sectionInner">
-            <p className="eyebrow dark">Maintenance</p>
-
-            <h2>Need something fixed?</h2>
-
-            <p>
-              Current tenants can submit maintenance requests for repairs,
-              property issues, or general concerns.
-            </p>
-
-            <p className="note">
-              For fire, flooding, gas leaks, or immediate danger, contact
-              emergency services first.
-            </p>
-
-            <Link to="/maintenance" className="button primary darkButton">
-              Submit Maintenance Request
-            </Link>
-          </div>
-        </section>
-
-        <section id="faq" className="section faqSection">
-          <div className="sectionInner">
-            <p className="eyebrow dark">FAQ</p>
-            <h2>Common questions</h2>
-
-            <div className="faqGrid">
-              <div className="faqItem">
-                <h3>Where are your properties located?</h3>
-
-                <p>
-                  Our rentals are primarily located in Niagara and Fort Erie,
-                  Ontario.
-                </p>
-              </div>
-
-              <div className="faqItem">
-                <h3>How do I inquire about a rental?</h3>
-
-                <p>
-                  Visit our rental inquiry page to submit your information and
-                  interest in current or upcoming rental opportunities.
-                </p>
-              </div>
-
-              <div className="faqItem">
-                <h3>How do tenants request repairs?</h3>
-
-                <p>
-                  Current tenants can visit our maintenance page and submit a
-                  request describing the issue and providing their contact
-                  information.
-                </p>
-              </div>
-
-              <div className="faqItem">
-                <h3>Are the properties luxury rentals?</h3>
-
-                <p>
-                  No. We focus on practical, clean, well-maintained residential
-                  rental homes.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <LocalNews />
 
         <section id="contact" className="section contactSection">
           <div className="sectionInner contactBox">
-            <p className="eyebrow">Contact</p>
+            <p className="eyebrow">General Contact</p>
 
             <h2>Have a question for Evergreen Properties?</h2>
 
