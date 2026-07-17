@@ -32,7 +32,7 @@ function App() {
 
             <div className="heroButtons">
               <Link to="/apply" className="button primary">
-                Apply for a Rental
+                Rental Inquiry
               </Link>
 
               <Link to="/maintenance" className="button secondary">
@@ -71,16 +71,17 @@ function App() {
 
         <section id="apply" className="section cardSection">
           <div className="sectionInner">
-            <p className="eyebrow dark">Tenant Inquiry</p>
+            <p className="eyebrow dark">Rental Inquiry</p>
+
             <h2>Looking for a rental?</h2>
 
             <p>
-              Submit an application or inquiry to be considered for current and
-              upcoming rental opportunities.
+              Submit an inquiry to be considered for current and upcoming rental
+              opportunities with Evergreen Properties.
             </p>
 
             <Link to="/apply" className="button primary darkButton">
-              Start Rental Inquiry
+              Submit Rental Inquiry
             </Link>
           </div>
         </section>
@@ -118,6 +119,7 @@ function App() {
             <div className="faqGrid">
               <div className="faqItem">
                 <h3>Where are your properties located?</h3>
+
                 <p>
                   Our rentals are primarily located in Niagara and Fort Erie,
                   Ontario.
@@ -125,15 +127,17 @@ function App() {
               </div>
 
               <div className="faqItem">
-                <h3>How do I apply?</h3>
+                <h3>How do I inquire about a rental?</h3>
+
                 <p>
-                  Visit our rental application page to submit your information
-                  and interest in available or upcoming rental opportunities.
+                  Visit our rental inquiry page to submit your information and
+                  interest in current or upcoming rental opportunities.
                 </p>
               </div>
 
               <div className="faqItem">
                 <h3>How do tenants request repairs?</h3>
+
                 <p>
                   Current tenants can visit our maintenance page and submit a
                   request describing the issue and providing their contact
@@ -143,6 +147,7 @@ function App() {
 
               <div className="faqItem">
                 <h3>Are the properties luxury rentals?</h3>
+
                 <p>
                   No. We focus on practical, clean, well-maintained residential
                   rental homes.
@@ -155,6 +160,7 @@ function App() {
         <section id="contact" className="section contactSection">
           <div className="sectionInner contactBox">
             <p className="eyebrow">Contact</p>
+
             <h2>Get in touch with Evergreen Properties.</h2>
 
             <p>
@@ -174,6 +180,7 @@ function App() {
 
       <footer className="footer">
         <img src="/logos/EPIcon.png" alt="Evergreen Properties icon" />
+
         <p>© 2026 Evergreen Properties. Niagara & Fort Erie, Ontario.</p>
       </footer>
     </div>
