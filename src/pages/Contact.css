@@ -43,17 +43,156 @@
 }
 
 /* =========================
+   CONTACT QUICK LINKS
+========================= */
+
+.contactLinksSection {
+  padding: 90px 24px;
+  background: #f7f5f0;
+}
+
+.contactLinksInner {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.contactLinksHeader {
+  max-width: 700px;
+  margin-bottom: 48px;
+}
+
+.contactLinksHeader h2 {
+  margin: 0;
+
+  color: #18352d;
+
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+.contactLinkGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.contactLinkCard {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 320px;
+  padding: 32px;
+
+  color: inherit;
+  text-decoration: none;
+
+  background: #ffffff;
+
+  border: 1px solid rgba(24, 53, 45, 0.08);
+  border-radius: 24px;
+
+  box-shadow:
+    0 16px 40px rgba(24, 53, 45, 0.06),
+    0 4px 12px rgba(24, 53, 45, 0.04);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.contactLinkCard:hover {
+  transform: translateY(-6px);
+
+  border-color: rgba(11, 77, 58, 0.2);
+
+  box-shadow:
+    0 24px 60px rgba(24, 53, 45, 0.12),
+    0 8px 20px rgba(24, 53, 45, 0.06);
+}
+
+.contactLinkIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 54px;
+  height: 54px;
+  margin-bottom: 24px;
+
+  font-size: 1.6rem;
+
+  background: #e8e1d4;
+
+  border-radius: 16px;
+}
+
+.contactLinkCard h3 {
+  margin: 0 0 14px;
+
+  color: #18352d;
+
+  font-size: 1.45rem;
+}
+
+.contactLinkCard p {
+  margin: 0 0 28px;
+
+  color: #64716d;
+
+  line-height: 1.7;
+}
+
+.contactLinkArrow {
+  margin-top: auto;
+
+  color: #0b4d3a;
+
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* =========================
    CONTACT FORM SECTION
 ========================= */
 
 .contactFormSection {
-  padding: 80px 24px 100px;
+  padding: 90px 24px 100px;
   background: #0b4d3a;
 }
 
 .contactFormInner {
   width: min(1000px, 100%);
   margin: 0 auto;
+}
+
+.contactFormIntro {
+  max-width: 650px;
+  margin-bottom: 40px;
+}
+
+.contactFormIntro .eyebrow {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.contactFormIntro h2 {
+  margin: 0 0 18px;
+
+  color: #ffffff;
+
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+.contactFormIntro p:not(.eyebrow) {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.75);
+
+  font-size: 1.05rem;
+  line-height: 1.7;
 }
 
 .contactFormCard {
@@ -88,6 +227,16 @@
    RESPONSIVE
 ========================= */
 
+@media (max-width: 900px) {
+  .contactLinkGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .contactLinkCard {
+    min-height: auto;
+  }
+}
+
 @media (max-width: 768px) {
   .contactPageHero {
     padding: 130px 20px 60px;
@@ -97,8 +246,20 @@
     font-size: clamp(2.75rem, 12vw, 4rem);
   }
 
+  .contactLinksSection {
+    padding: 60px 20px;
+  }
+
+  .contactLinksHeader {
+    margin-bottom: 32px;
+  }
+
+  .contactLinkCard {
+    padding: 26px;
+  }
+
   .contactFormSection {
-    padding: 50px 16px 70px;
+    padding: 60px 16px 70px;
   }
 
   .contactFormCard {
