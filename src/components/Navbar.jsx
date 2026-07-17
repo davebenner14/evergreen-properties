@@ -10,6 +10,7 @@ function Navbar() {
       <div className="navLinks">
         <Link to="/about">About</Link>
         <Link to="/apply">Apply</Link>
+        <Link to="/tenant-application">Tenant Application</Link>
         <Link to="/maintenance">Maintenance</Link>
         <a href="/#contact">Contact</a>
       </div>

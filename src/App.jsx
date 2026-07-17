@@ -86,28 +86,56 @@ function App() {
           </div>
         </section>
 
-        <section id="maintenance" className="section maintenanceSection">
+        <section
+          id="tenant-application"
+          className="section maintenanceSection"
+        >
           <div className="sectionInner twoCol">
             <div>
-              <p className="eyebrow dark">Maintenance</p>
-              <h2>Need something fixed?</h2>
+              <p className="eyebrow dark">Tenant Application</p>
+              <h2>Ready to complete your application?</h2>
             </div>
 
             <div>
               <p>
-                Current tenants can submit maintenance requests for repairs,
-                property issues, or general concerns.
+                Complete the Evergreen Properties tenant application with your
+                personal, employment, rental, and reference information.
               </p>
 
               <p className="note">
-                For fire, flooding, gas leaks, or immediate danger, contact
-                emergency services first.
+                Please complete all required fields and ensure the information
+                provided is accurate before submitting your application.
               </p>
 
-              <Link to="/maintenance" className="button primary darkButton">
-                Submit Maintenance Request
+              <Link
+                to="/tenant-application"
+                className="button primary darkButton"
+              >
+                Complete Tenant Application
               </Link>
             </div>
+          </div>
+        </section>
+
+        <section id="maintenance" className="section cardSection">
+          <div className="sectionInner">
+            <p className="eyebrow dark">Maintenance</p>
+
+            <h2>Need something fixed?</h2>
+
+            <p>
+              Current tenants can submit maintenance requests for repairs,
+              property issues, or general concerns.
+            </p>
+
+            <p className="note">
+              For fire, flooding, gas leaks, or immediate danger, contact
+              emergency services first.
+            </p>
+
+            <Link to="/maintenance" className="button primary darkButton">
+              Submit Maintenance Request
+            </Link>
           </div>
         </section>
 

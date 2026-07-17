@@ -45,6 +45,5 @@ function TenantApplication() {
     </div>
   );
 }
-//this is a test
 
 export default TenantApplication;
