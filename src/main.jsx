@@ -6,6 +6,7 @@ import About from "./pages/About.jsx";
 import Apply from "./pages/Apply.jsx";
 import Maintenance from "./pages/Maintenance.jsx";
 import TenantApplication from "./pages/TenantApplication.jsx";
+import Contact from "./pages/Contact.jsx";
 import "./App.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -15,8 +16,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/" element={<App />} />
         <Route path="/about" element={<About />} />
         <Route path="/apply" element={<Apply />} />
+        <Route path="/tenant-application" element={<TenantApplication />} />
         <Route path="/maintenance" element={<Maintenance />} />
-        <Route path="/tenant-application" element={<TenantApplication />} />      </Routes>
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );

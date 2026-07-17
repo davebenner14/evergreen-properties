@@ -189,19 +189,16 @@ function App() {
           <div className="sectionInner contactBox">
             <p className="eyebrow">Contact</p>
 
-            <h2>Get in touch with Evergreen Properties.</h2>
+            <h2>Have a question for Evergreen Properties?</h2>
 
             <p>
-              For rental inquiries, tenant questions, or general questions,
-              contact us below.
+              For general questions about Evergreen Properties, our rentals, or
+              our properties, send us a message through our contact form.
             </p>
 
-            <a
-              href="mailto:info@evergreenproperties.ca"
-              className="button secondary"
-            >
-              Email Evergreen Properties
-            </a>
+            <Link to="/contact" className="button secondary">
+              Contact Evergreen Properties
+            </Link>
           </div>
         </section>
       </main>

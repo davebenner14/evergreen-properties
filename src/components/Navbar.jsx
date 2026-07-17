@@ -12,7 +12,7 @@ function Navbar() {
         <Link to="/apply">Apply</Link>
         <Link to="/tenant-application">Tenant Application</Link>
         <Link to="/maintenance">Maintenance</Link>
-        <a href="/#contact">Contact</a>
+        <Link to="/contact">Contact</Link>
       </div>
     </nav>
   );

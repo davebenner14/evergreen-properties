@@ -1,0 +1,113 @@
+/* =========================
+   CONTACT PAGE
+========================= */
+
+.contactPage {
+  min-height: 100vh;
+  background: #f7f5f0;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.contactPageHero {
+  padding: 150px 24px 80px;
+  background: #e8e1d4;
+}
+
+.contactPageHeroInner {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.contactPageHero h1 {
+  max-width: 750px;
+  margin: 0 0 24px;
+
+  color: #18352d;
+
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.contactPageHero p:not(.eyebrow) {
+  max-width: 650px;
+  margin: 0;
+
+  color: #52615c;
+
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+/* =========================
+   CONTACT FORM SECTION
+========================= */
+
+.contactFormSection {
+  padding: 80px 24px 100px;
+  background: #0b4d3a;
+}
+
+.contactFormInner {
+  width: min(1000px, 100%);
+  margin: 0 auto;
+}
+
+.contactFormCard {
+  padding: 24px;
+
+  background: #ffffff;
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.16),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   AIRTABLE EMBED
+========================= */
+
+.contactAirtableEmbed {
+  display: block;
+
+  width: 100%;
+  min-height: 650px;
+
+  border: 0;
+  border-radius: 18px;
+
+  background: transparent;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .contactPageHero {
+    padding: 130px 20px 60px;
+  }
+
+  .contactPageHero h1 {
+    font-size: clamp(2.75rem, 12vw, 4rem);
+  }
+
+  .contactFormSection {
+    padding: 50px 16px 70px;
+  }
+
+  .contactFormCard {
+    padding: 12px;
+    border-radius: 20px;
+  }
+
+  .contactAirtableEmbed {
+    min-height: 700px;
+    border-radius: 14px;
+  }
+}
