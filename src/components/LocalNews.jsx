@@ -12,32 +12,108 @@ function LocalNews() {
         const API_TOKEN =
           "0oLO56rvYVm8ITpWOOwIP4VtRctpIuIdyCUv9vgz";
 
-        const searchQuery =
-          '"Fort Erie" OR "Niagara Falls" OR "Niagara Region"';
+        /*
+          We run three separate searches so we get a better mix
+          of stories from across the Niagara area.
+        */
+        const searches = [
+          "Fort Erie Ontario",
+          "Niagara Falls Ontario",
+          "Niagara Region Ontario",
+        ];
 
-        const url =
-          `https://api.thenewsapi.com/v1/news/all` +
-          `?api_token=${API_TOKEN}` +
-          `&search=${encodeURIComponent(searchQuery)}` +
-          `&language=en` +
-          `&locale=ca` +
-          `&limit=3`;
+        /*
+          Create one API request for each local search.
+        */
+        const requests = searches.map((search) => {
+          const url =
+            `https://api.thenewsapi.com/v1/news/all` +
+            `?api_token=${API_TOKEN}` +
+            `&search=${encodeURIComponent(search)}` +
+            `&language=en` +
+            `&locale=ca` +
+            `&limit=3`;
 
-        const response = await fetch(url);
+          return fetch(url).then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                `News API request failed with status ${response.status}`
+              );
+            }
 
-        if (!response.ok) {
-          throw new Error(
-            `News API request failed with status ${response.status}`
-          );
+            return response.json();
+          });
+        });
+
+        /*
+          Run all three API requests at the same time.
+        */
+        const results = await Promise.all(requests);
+
+        /*
+          Combine the results from all three searches
+          into one single array.
+        */
+        const combinedArticles = results.flatMap(
+          (result) => result.data || []
+        );
+
+        /*
+          Remove duplicate stories.
+
+          The same news article could potentially appear
+          in more than one search result.
+        */
+        const uniqueArticles = Array.from(
+          new Map(
+            combinedArticles.map((article) => [
+              article.uuid || article.url,
+              article,
+            ])
+          ).values()
+        );
+
+        /*
+          Randomly shuffle all of the combined stories.
+
+          This prevents the cards from always appearing as:
+          Fort Erie
+          Fort Erie
+          Fort Erie
+          Niagara Falls
+          Niagara Falls
+          Niagara Falls
+          etc.
+        */
+        const shuffledArticles = [...uniqueArticles];
+
+        for (let i = shuffledArticles.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+
+          [shuffledArticles[i], shuffledArticles[j]] = [
+            shuffledArticles[j],
+            shuffledArticles[i],
+          ];
         }
 
-        const data = await response.json();
+        /*
+          Display up to 9 randomly mixed stories.
+        */
+        setArticles(shuffledArticles.slice(0, 9));
 
-        console.log("Local news response:", data);
-
-        setArticles(data.data || []);
+        /*
+          Helpful while we're developing locally.
+          You can view this in the browser console.
+        */
+        console.log("Fort Erie news:", results[0]?.data || []);
+        console.log("Niagara Falls news:", results[1]?.data || []);
+        console.log("Niagara Region news:", results[2]?.data || []);
+        console.log("Combined local news:", combinedArticles);
+        console.log("Unique local news:", uniqueArticles);
+        console.log("Shuffled local news:", shuffledArticles);
       } catch (err) {
         console.error("Unable to load local news:", err);
+
         setError(true);
       } finally {
         setLoading(false);
@@ -47,11 +123,25 @@ function LocalNews() {
     fetchLocalNews();
   }, []);
 
+  /*
+    If the API fails, display a simple message.
+
+    We can change this later so the entire section
+    disappears automatically in production.
+  */
   if (error) {
     return (
       <section className="localNewsSection">
         <div className="localNewsInner">
-          <p>Local news is temporarily unavailable.</p>
+          <div className="localNewsHeader">
+            <p className="eyebrow dark">Local News & Community</p>
+
+            <h2>Around Niagara.</h2>
+          </div>
+
+          <p className="localNewsLoading">
+            Local news is temporarily unavailable.
+          </p>
         </div>
       </section>
     );
@@ -72,11 +162,16 @@ function LocalNews() {
         </div>
 
         {loading ? (
-          <p className="localNewsLoading">Loading local news...</p>
-        ) : (
+          <p className="localNewsLoading">
+            Loading local news...
+          </p>
+        ) : articles.length > 0 ? (
           <div className="localNewsGrid">
             {articles.map((article) => (
-              <article className="newsCard" key={article.uuid}>
+              <article
+                className="newsCard"
+                key={article.uuid || article.url}
+              >
                 <a
                   href={article.url}
                   target="_blank"
@@ -146,6 +241,10 @@ function LocalNews() {
               </article>
             ))}
           </div>
+        ) : (
+          <p className="localNewsLoading">
+            No local news stories are available right now.
+          </p>
         )}
       </div>
     </section>
