@@ -54,14 +54,18 @@ const communityLinks = [
   },
 ];
 
-function CommunityCard({ item }) {
+function CommunityCard({ item, duplicate = false }) {
   return (
-    <article className="fortErieCommunityCard">
+    <article
+      className="fortErieCommunityCard"
+      aria-hidden={duplicate ? "true" : undefined}
+    >
       <a
         className="fortErieCommunityCardLink"
         href={item.url}
         target="_blank"
         rel="noopener noreferrer"
+        tabIndex={duplicate ? -1 : 0}
         aria-label={`Visit ${item.title}`}
       >
         <div
@@ -76,7 +80,7 @@ function CommunityCard({ item }) {
               item.imageType === "logo" ? "fortErieCommunityLogo" : ""
             }`}
             src={item.image}
-            alt={item.title}
+            alt={duplicate ? "" : item.title}
             loading="lazy"
           />
         </div>
@@ -102,90 +106,10 @@ function CommunityCard({ item }) {
 
 export default function FortErieCommunityCarousel() {
   const carouselRef = useRef(null);
+  const animationFrameRef = useRef(null);
+  const previousTimeRef = useRef(null);
 
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
-
-  function updateScrollButtons() {
-    const carousel = carouselRef.current;
-
-    if (!carousel) {
-      return;
-    }
-
-    const maximumScrollLeft =
-      carousel.scrollWidth - carousel.clientWidth;
-
-    setCanScrollLeft(carousel.scrollLeft > 5);
-    setCanScrollRight(
-      carousel.scrollLeft < maximumScrollLeft - 5
-    );
-  }
-
-  function getScrollDistance() {
-    const carousel = carouselRef.current;
-
-    if (!carousel) {
-      return 0;
-    }
-
-    const firstCard = carousel.querySelector(
-      ".fortErieCommunityCard"
-    );
-
-    const cardWidth = firstCard?.offsetWidth || 340;
-    const styles = window.getComputedStyle(carousel);
-    const gap = Number.parseFloat(styles.columnGap) || 24;
-
-    return cardWidth + gap;
-  }
-
-  function scrollCarousel(direction) {
-    const carousel = carouselRef.current;
-
-    if (!carousel) {
-      return;
-    }
-
-    const scrollDistance = getScrollDistance();
-
-    carousel.scrollBy({
-      left:
-        direction === "left"
-          ? -scrollDistance
-          : scrollDistance,
-      behavior: "smooth",
-    });
-  }
-
-  function advanceCarousel() {
-    const carousel = carouselRef.current;
-
-    if (!carousel) {
-      return;
-    }
-
-    const maximumScrollLeft =
-      carousel.scrollWidth - carousel.clientWidth;
-
-    const reachedEnd =
-      carousel.scrollLeft >= maximumScrollLeft - 10;
-
-    if (reachedEnd) {
-      carousel.scrollTo({
-        left: 0,
-        behavior: "smooth",
-      });
-
-      return;
-    }
-
-    carousel.scrollBy({
-      left: getScrollDistance(),
-      behavior: "smooth",
-    });
-  }
 
   useEffect(() => {
     const carousel = carouselRef.current;
@@ -194,39 +118,62 @@ export default function FortErieCommunityCarousel() {
       return undefined;
     }
 
-    updateScrollButtons();
-
-    carousel.addEventListener("scroll", updateScrollButtons);
-    window.addEventListener("resize", updateScrollButtons);
-
-    return () => {
-      carousel.removeEventListener(
-        "scroll",
-        updateScrollButtons
-      );
-
-      window.removeEventListener(
-        "resize",
-        updateScrollButtons
-      );
-    };
-  }, []);
-
-  useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    if (isPaused || prefersReducedMotion) {
+    if (prefersReducedMotion) {
       return undefined;
     }
 
-    const intervalId = window.setInterval(() => {
-      advanceCarousel();
-    }, 4500);
+    /*
+      Increase this number to make the carousel move faster.
+      Recommended range: 20 to 45 pixels per second.
+    */
+    const pixelsPerSecond = 28;
+
+    function animate(currentTime) {
+      if (previousTimeRef.current === null) {
+        previousTimeRef.current = currentTime;
+      }
+
+      const elapsedTime =
+        (currentTime - previousTimeRef.current) / 1000;
+
+      previousTimeRef.current = currentTime;
+
+      if (!isPaused) {
+        carousel.scrollLeft += pixelsPerSecond * elapsedTime;
+
+        /*
+          The cards are rendered twice.
+
+          Once the carousel reaches the start of the duplicated
+          cards, reset it back to the beginning. Because both
+          halves are identical, the reset is visually seamless.
+        */
+        const halfwayPoint = carousel.scrollWidth / 2;
+
+        if (carousel.scrollLeft >= halfwayPoint) {
+          carousel.scrollLeft -= halfwayPoint;
+        }
+      }
+
+      animationFrameRef.current =
+        window.requestAnimationFrame(animate);
+    }
+
+    animationFrameRef.current =
+      window.requestAnimationFrame(animate);
 
     return () => {
-      window.clearInterval(intervalId);
+      if (animationFrameRef.current) {
+        window.cancelAnimationFrame(
+          animationFrameRef.current
+        );
+      }
+
+      previousTimeRef.current = null;
     };
   }, [isPaused]);
 
@@ -247,31 +194,6 @@ export default function FortErieCommunityCarousel() {
               Erie resources.
             </p>
           </div>
-
-          <div
-            className="fortErieCommunityControls"
-            aria-label="Community carousel controls"
-          >
-            <button
-              type="button"
-              className="fortErieCommunityArrow"
-              onClick={() => scrollCarousel("left")}
-              disabled={!canScrollLeft}
-              aria-label="View previous community resources"
-            >
-              <span aria-hidden="true">←</span>
-            </button>
-
-            <button
-              type="button"
-              className="fortErieCommunityArrow"
-              onClick={() => scrollCarousel("right")}
-              disabled={!canScrollRight}
-              aria-label="View more community resources"
-            >
-              <span aria-hidden="true">→</span>
-            </button>
-          </div>
         </div>
 
         <div
@@ -285,12 +207,15 @@ export default function FortErieCommunityCarousel() {
           onTouchEnd={() => setIsPaused(false)}
           aria-label="Fort Erie community resources"
         >
-          {communityLinks.map((item) => (
-            <CommunityCard
-              key={item.title}
-              item={item}
-            />
-          ))}
+          {[...communityLinks, ...communityLinks].map(
+            (item, index) => (
+              <CommunityCard
+                key={`${item.title}-${index}`}
+                item={item}
+                duplicate={index >= communityLinks.length}
+              />
+            )
+          )}
         </div>
 
         <p className="fortErieCommunityMobileHint">
