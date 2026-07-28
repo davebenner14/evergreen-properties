@@ -68,17 +68,20 @@ function Apply() {
                 upcoming Evergreen Properties rentals.
               </p>
             </div>
-
-            <div className="airtableFormWrapper">
-              <iframe
-                className="airtable-embed airtableApplyForm"
-                src="https://airtable.com/embed/appmZFilPYR2vMKWB/pagP6nwG2S0tSYw6M/form"
-                frameBorder="0"
-                width="100%"
-                height="2000"
-                title="Evergreen Properties Rental Application"
-              />
-            </div>
+<div className="airtableFormWrapper">
+  <iframe
+    className="airtable-embed airtableApplyForm"
+    src="https://airtable.com/embed/appmZFilPYR2vMKWB/pagP6nwG2S0tSYw6M/form"
+    frameBorder="0"
+    width="100%"
+    height="2000"
+    title="Evergreen Properties Rental Inquiry"
+    style={{
+      background: "transparent",
+      border: "1px solid #ccc",
+    }}
+  />
+</div>
           </div>
         </section>
 
