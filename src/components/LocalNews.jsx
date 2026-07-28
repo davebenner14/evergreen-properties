@@ -84,7 +84,7 @@ function LocalNews() {
         */
         const cutoffDate = new Date();
 
-        cutoffDate.setDate(cutoffDate.getDate() - 30);
+        cutoffDate.setDate(cutoffDate.getDate() - 90);
         cutoffDate.setHours(0, 0, 0, 0);
 
         /*
@@ -329,7 +329,7 @@ function LocalNews() {
         ) : (
           <p className="localNewsLoading">
             No local news stories have been published within the
-            last 30 days.
+            last 90 days.
           </p>
         )}
       </div>
