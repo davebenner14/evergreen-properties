@@ -105,6 +105,7 @@ export default function FortErieCommunityCarousel() {
 
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
 
   function updateScrollButtons() {
     const carousel = carouselRef.current;
@@ -122,11 +123,11 @@ export default function FortErieCommunityCarousel() {
     );
   }
 
-  function scrollCarousel(direction) {
+  function getScrollDistance() {
     const carousel = carouselRef.current;
 
     if (!carousel) {
-      return;
+      return 0;
     }
 
     const firstCard = carousel.querySelector(
@@ -134,14 +135,54 @@ export default function FortErieCommunityCarousel() {
     );
 
     const cardWidth = firstCard?.offsetWidth || 340;
-    const gap = 24;
-    const scrollDistance = cardWidth + gap;
+    const styles = window.getComputedStyle(carousel);
+    const gap = Number.parseFloat(styles.columnGap) || 24;
+
+    return cardWidth + gap;
+  }
+
+  function scrollCarousel(direction) {
+    const carousel = carouselRef.current;
+
+    if (!carousel) {
+      return;
+    }
+
+    const scrollDistance = getScrollDistance();
 
     carousel.scrollBy({
       left:
         direction === "left"
           ? -scrollDistance
           : scrollDistance,
+      behavior: "smooth",
+    });
+  }
+
+  function advanceCarousel() {
+    const carousel = carouselRef.current;
+
+    if (!carousel) {
+      return;
+    }
+
+    const maximumScrollLeft =
+      carousel.scrollWidth - carousel.clientWidth;
+
+    const reachedEnd =
+      carousel.scrollLeft >= maximumScrollLeft - 10;
+
+    if (reachedEnd) {
+      carousel.scrollTo({
+        left: 0,
+        behavior: "smooth",
+      });
+
+      return;
+    }
+
+    carousel.scrollBy({
+      left: getScrollDistance(),
       behavior: "smooth",
     });
   }
@@ -170,6 +211,24 @@ export default function FortErieCommunityCarousel() {
       );
     };
   }, []);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (isPaused || prefersReducedMotion) {
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      advanceCarousel();
+    }, 4500);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [isPaused]);
 
   return (
     <section className="fortErieCommunitySection">
@@ -218,6 +277,13 @@ export default function FortErieCommunityCarousel() {
         <div
           className="fortErieCommunityCarousel"
           ref={carouselRef}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onFocusCapture={() => setIsPaused(true)}
+          onBlurCapture={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
+          aria-label="Fort Erie community resources"
         >
           {communityLinks.map((item) => (
             <CommunityCard
