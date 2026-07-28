@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import LocalWeather from "./components/LocalWeather";
 import LocalNews from "./components/LocalNews";
+import FortErieCommunityCarousel from "./components/FortErieCommunityCarousel";
 
 function App() {
   return (
@@ -122,6 +123,8 @@ function App() {
             </div>
           </div>
         </section>
+
+        <FortErieCommunityCarousel />
 
         <LocalWeather />
 

@@ -1,0 +1,346 @@
+.fortErieCommunitySection {
+  width: 100%;
+  padding: 88px 0;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(255, 255, 255, 0.08),
+      transparent 34%
+    ),
+    #0b4d3a;
+}
+
+.fortErieCommunityContainer {
+  width: min(100% - 40px, 1280px);
+  margin: 0 auto;
+}
+
+.fortErieCommunityHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 34px;
+}
+
+.fortErieCommunityHeading {
+  max-width: 720px;
+}
+
+.fortErieCommunitySectionEyebrow {
+  display: block;
+  margin-bottom: 10px;
+  color: #d9cba8;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.fortErieCommunityHeading h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 750;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+
+.fortErieCommunityHeading p {
+  max-width: 650px;
+  margin: 18px 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1.04rem;
+  line-height: 1.75;
+}
+
+.fortErieCommunityControls {
+  display: flex;
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.fortErieCommunityArrow {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.09);
+  color: #ffffff;
+  font: inherit;
+  font-size: 1.25rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    opacity 180ms ease;
+}
+
+.fortErieCommunityArrow:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.48);
+  background: rgba(255, 255, 255, 0.17);
+}
+
+.fortErieCommunityArrow:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.55);
+  outline-offset: 3px;
+}
+
+.fortErieCommunityArrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.fortErieCommunityCarousel {
+  display: grid;
+  grid-auto-columns: minmax(310px, 380px);
+  grid-auto-flow: column;
+  gap: 24px;
+  padding: 4px 2px 24px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-behavior: smooth;
+  scroll-padding-inline: 2px;
+  scroll-snap-type: inline mandatory;
+  scrollbar-width: none;
+}
+
+.fortErieCommunityCarousel::-webkit-scrollbar {
+  display: none;
+}
+
+.fortErieCommunityCard {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.14),
+    0 4px 12px rgba(0, 0, 0, 0.08);
+  scroll-snap-align: start;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.fortErieCommunityCard:hover {
+  transform: translateY(-7px);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.2),
+    0 7px 16px rgba(0, 0, 0, 0.1);
+}
+
+.fortErieCommunityCardLink {
+  display: flex;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+  flex-direction: column;
+}
+
+.fortErieCommunityCardLink:focus-visible {
+  outline: 4px solid #d9cba8;
+  outline-offset: -4px;
+  border-radius: 22px;
+}
+
+.fortErieCommunityImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #d8ded9;
+}
+
+.fortErieCommunityImageWrapper::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      transparent 55%,
+      rgba(4, 37, 27, 0.28)
+    );
+  content: "";
+  pointer-events: none;
+}
+
+.fortErieCommunityImageWrapperLogo {
+  display: grid;
+  padding: 38px;
+  place-items: center;
+  background:
+    linear-gradient(
+      135deg,
+      #f2f5f1,
+      #e4eae5
+    );
+}
+
+.fortErieCommunityImageWrapperLogo::after {
+  display: none;
+}
+
+.fortErieCommunityImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 450ms ease;
+}
+
+.fortErieCommunityCard:hover
+  .fortErieCommunityImage:not(.fortErieCommunityLogo) {
+  transform: scale(1.045);
+}
+
+.fortErieCommunityLogo {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+  transform: none;
+}
+
+.fortErieCommunityCardContent {
+  display: flex;
+  min-height: 280px;
+  padding: 25px 25px 27px;
+  flex: 1;
+  flex-direction: column;
+}
+
+.fortErieCommunityEyebrow {
+  display: block;
+  margin-bottom: 9px;
+  color: #517065;
+  font-size: 0.69rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.fortErieCommunityCardContent h3 {
+  margin: 0;
+  color: #103c30;
+  font-size: 1.42rem;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.fortErieCommunityCardContent p {
+  margin: 13px 0 24px;
+  color: #56635e;
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.fortErieCommunityCardButton {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: auto;
+  align-items: center;
+  gap: 9px;
+  color: #0b4d3a;
+  font-size: 0.92rem;
+  font-weight: 800;
+  transition: gap 180ms ease;
+}
+
+.fortErieCommunityCard:hover
+  .fortErieCommunityCardButton {
+  gap: 13px;
+}
+
+.fortErieCommunityMobileHint {
+  display: none;
+  margin: 6px 0 0;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+@media (max-width: 800px) {
+  .fortErieCommunitySection {
+    padding: 70px 0;
+  }
+
+  .fortErieCommunityContainer {
+    width: min(100% - 30px, 1280px);
+  }
+
+  .fortErieCommunityHeader {
+    display: block;
+    margin-bottom: 28px;
+  }
+
+  .fortErieCommunityControls {
+    display: none;
+  }
+
+  .fortErieCommunityCarousel {
+    grid-auto-columns: minmax(280px, 86vw);
+    gap: 18px;
+    margin-right: -15px;
+    padding-right: 15px;
+  }
+
+  .fortErieCommunityCardContent {
+    min-height: 270px;
+  }
+
+  .fortErieCommunityMobileHint {
+    display: block;
+  }
+}
+
+@media (max-width: 520px) {
+  .fortErieCommunitySection {
+    padding: 58px 0;
+  }
+
+  .fortErieCommunityHeading p {
+    font-size: 0.96rem;
+  }
+
+  .fortErieCommunityCarousel {
+    grid-auto-columns: 88vw;
+  }
+
+  .fortErieCommunityImageWrapperLogo {
+    padding: 28px;
+  }
+
+  .fortErieCommunityCardContent {
+    min-height: 255px;
+    padding: 22px;
+  }
+
+  .fortErieCommunityCardContent h3 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fortErieCommunityCarousel {
+    scroll-behavior: auto;
+  }
+
+  .fortErieCommunityArrow,
+  .fortErieCommunityCard,
+  .fortErieCommunityImage,
+  .fortErieCommunityCardButton {
+    transition: none;
+  }
+}
