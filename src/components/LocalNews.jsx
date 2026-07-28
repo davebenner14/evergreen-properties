@@ -1,6 +1,65 @@
 import { useEffect, useState } from "react";
 import "./LocalNews.css";
 
+/*
+  Handles each article image independently.
+
+  If an image is missing, broken, blocked by the publisher,
+  or too small to display cleanly, the Evergreen Properties
+  fallback image is shown instead.
+*/
+function NewsImage({ article }) {
+  const [imageFailed, setImageFailed] = useState(!article.image_url);
+
+  function handleImageLoad(event) {
+    const image = event.currentTarget;
+
+    /*
+      Very small source images become blurry when stretched
+      across the full width of a news card.
+
+      These minimum dimensions can be adjusted later.
+    */
+    const imageIsTooSmall =
+      image.naturalWidth < 500 || image.naturalHeight < 250;
+
+    if (imageIsTooSmall) {
+      setImageFailed(true);
+    }
+  }
+
+  function handleImageError() {
+    setImageFailed(true);
+  }
+
+  if (imageFailed) {
+    return (
+      <div className="newsImageFallback">
+        <img
+          src="/logos/EPIcon.png"
+          alt=""
+          aria-hidden="true"
+        />
+
+        <span>Local News</span>
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={article.image_url}
+      alt={article.title || "Local news story"}
+      className="newsCardImage"
+      loading="lazy"
+      decoding="async"
+      referrerPolicy="no-referrer"
+      onLoad={handleImageLoad}
+      onError={handleImageError}
+    />
+  );
+}
+
 function LocalNews() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -134,7 +193,9 @@ function LocalNews() {
       <section className="localNewsSection">
         <div className="localNewsInner">
           <div className="localNewsHeader">
-            <p className="eyebrow dark">Local News & Community</p>
+            <p className="eyebrow dark">
+              Local News & Community
+            </p>
 
             <h2>Around Niagara.</h2>
           </div>
@@ -151,13 +212,15 @@ function LocalNews() {
     <section className="localNewsSection">
       <div className="localNewsInner">
         <div className="localNewsHeader">
-          <p className="eyebrow dark">Local News & Community</p>
+          <p className="eyebrow dark">
+            Local News & Community
+          </p>
 
           <h2>Around Niagara.</h2>
 
           <p>
-            Stay connected with what's happening in Fort Erie, Niagara Falls,
-            and communities across the Niagara Region.
+            Stay connected with what's happening in Fort Erie,
+            Niagara Falls, and communities across the Niagara Region.
           </p>
         </div>
 
@@ -177,21 +240,9 @@ function LocalNews() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="newsImageLink"
+                  aria-label={`Read: ${article.title}`}
                 >
-                  {article.image_url ? (
-                    <img
-                      src={article.image_url}
-                      alt={article.title}
-                      className="newsCardImage"
-                    />
-                  ) : (
-                    <div className="newsImageFallback">
-                      <img
-                        src="/logos/EPIcon.png"
-                        alt="Evergreen Properties"
-                      />
-                    </div>
-                  )}
+                  <NewsImage article={article} />
                 </a>
 
                 <div className="newsCardContent">

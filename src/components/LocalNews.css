@@ -59,6 +59,7 @@
   display: flex;
   flex-direction: column;
 
+  min-width: 0;
   overflow: hidden;
 
   background: #ffffff;
@@ -88,12 +89,16 @@
 ========================= */
 
 .newsImageLink {
+  position: relative;
+
   display: block;
+  width: 100%;
   overflow: hidden;
 
   aspect-ratio: 16 / 10;
 
   background: #d8d2c6;
+  text-decoration: none;
 }
 
 .newsCardImage {
@@ -103,6 +108,7 @@
   height: 100%;
 
   object-fit: cover;
+  object-position: center;
 
   transition: transform 0.4s ease;
 }
@@ -111,22 +117,53 @@
   transform: scale(1.04);
 }
 
+/*
+  Shown when the API provides no image,
+  the publisher blocks the image,
+  or the source image is too small.
+*/
 .newsImageFallback {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 12px;
 
   width: 100%;
   height: 100%;
+  padding: 28px;
 
-  background: #0b4d3a;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(255, 255, 255, 0.12),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      #18352d 0%,
+      #0b4d3a 100%
+    );
 }
 
 .newsImageFallback img {
+  display: block;
+
   width: 80px;
   height: 80px;
 
   object-fit: contain;
+}
+
+.newsImageFallback span {
+  color: #ffffff;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 /* =========================
@@ -138,6 +175,7 @@
   flex: 1;
   flex-direction: column;
 
+  min-width: 0;
   padding: 30px;
 }
 
@@ -157,6 +195,10 @@
   text-transform: uppercase;
 }
 
+.newsMeta span {
+  overflow-wrap: anywhere;
+}
+
 .newsCard h3 {
   margin: 0 0 16px;
 
@@ -167,6 +209,7 @@
 .newsCard h3 a {
   color: #18352d;
   text-decoration: none;
+  overflow-wrap: anywhere;
 
   transition: color 0.2s ease;
 }
@@ -176,12 +219,18 @@
 }
 
 .newsCardContent > p {
+  display: -webkit-box;
+  overflow: hidden;
+
   margin: 0 0 24px;
 
   color: #63706b;
 
   font-size: 0.95rem;
   line-height: 1.7;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 
 .newsReadMore {
@@ -213,7 +262,7 @@
 
 @media (max-width: 950px) {
   .localNewsGrid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -227,10 +276,15 @@
   }
 
   .localNewsGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .newsCardContent {
     padding: 24px;
+  }
+
+  .newsImageFallback img {
+    width: 68px;
+    height: 68px;
   }
 }
