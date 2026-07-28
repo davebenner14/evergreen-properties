@@ -64,6 +64,28 @@ body {
   font-weight: 600;
   line-height: 1;
 }
+.staffLogin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 18px;
+  border-radius: 999px;
+
+  background: #0b4d3a;
+  color: #ffffff !important;
+
+  text-decoration: none;
+  font-weight: 600;
+
+  transition: all 0.25s ease;
+}
+
+.staffLogin:hover {
+  background: #14674e;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
 
 .heroCanadianFlag {
   display: inline-flex;
