@@ -52,6 +52,27 @@ body {
   transform: translateY(7px);
 }
 
+.heroCanadian {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  margin-top: 22px;
+  margin-bottom: 22px;
+  color: rgba(255, 255, 255, 0.96);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.heroCanadianFlag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
 .navLinks {
   display: flex;
   gap: 32px;

@@ -31,6 +31,14 @@ function App() {
               care, stability, and long-term pride of ownership.
             </p>
 
+            <div className="heroCanadian">
+              <span className="heroCanadianFlag" aria-hidden="true">
+                🇨🇦
+              </span>
+
+              <span>Proudly Canadian Owned</span>
+            </div>
+
             <div className="heroButtons">
               <Link to="/apply" className="button primary">
                 Rental Inquiry
