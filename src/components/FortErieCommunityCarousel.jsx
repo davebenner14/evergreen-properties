@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import "./FortErieCommunityCarousel.css";
 
 const communityLinks = [
@@ -22,7 +21,7 @@ const communityLinks = [
     description:
       "Access garbage collection information, recycling guidelines, schedules and waste-management resources.",
     image: "/images/garbage-and-recycling-banner.webp",
-    url: "https://www.forterie.ca/living-in-fort-erie/garbage-and-recycling/#",
+    url: "https://www.forterie.ca/living-in-fort-erie/garbage-and-recycling/",
   },
   {
     title: "Council Meetings",
@@ -43,14 +42,14 @@ const communityLinks = [
     description:
       "Discover local recreation programs, sports organizations, clubs and activities for residents of all ages.",
     image: "/images/sports-and-recreation-banner.webp",
-    url: "https://www.forterie.ca/living-in-fort-erie/community-resources/sports-and-recreation/#",
+    url: "https://www.forterie.ca/living-in-fort-erie/community-resources/sports-and-recreation/",
   },
   {
     title: "Volunteer Opportunities",
     description:
       "Connect with local organizations and discover ways to volunteer and contribute to the Fort Erie community.",
     image: "/images/volunteer-opportunities-banner.webp",
-    url: "https://www.forterie.ca/living-in-fort-erie/community-resources/volunteer-opportunities/#",
+    url: "https://www.forterie.ca/living-in-fort-erie/community-resources/volunteer-opportunities/",
   },
 ];
 
@@ -104,83 +103,28 @@ function CommunityCard({ item, duplicate = false }) {
   );
 }
 
+function CommunityCardGroup({ duplicate = false }) {
+  return (
+    <div
+      className="fortErieCommunityGroup"
+      aria-hidden={duplicate ? "true" : undefined}
+    >
+      {communityLinks.map((item) => (
+        <CommunityCard
+          key={`${duplicate ? "duplicate" : "original"}-${item.title}`}
+          item={item}
+          duplicate={duplicate}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function FortErieCommunityCarousel() {
-  const carouselRef = useRef(null);
-  const animationFrameRef = useRef(null);
-  const previousTimeRef = useRef(null);
-
-  const [isPaused, setIsPaused] = useState(false);
-
-  useEffect(() => {
-    const carousel = carouselRef.current;
-
-    if (!carousel) {
-      return undefined;
-    }
-
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    if (prefersReducedMotion) {
-      return undefined;
-    }
-
-    /*
-      Increase this number to make the carousel move faster.
-      Recommended range: 20 to 45 pixels per second.
-    */
-    const pixelsPerSecond = 28;
-
-    function animate(currentTime) {
-      if (previousTimeRef.current === null) {
-        previousTimeRef.current = currentTime;
-      }
-
-      const elapsedTime =
-        (currentTime - previousTimeRef.current) / 1000;
-
-      previousTimeRef.current = currentTime;
-
-      if (!isPaused) {
-        carousel.scrollLeft += pixelsPerSecond * elapsedTime;
-
-        /*
-          The cards are rendered twice.
-
-          Once the carousel reaches the start of the duplicated
-          cards, reset it back to the beginning. Because both
-          halves are identical, the reset is visually seamless.
-        */
-        const halfwayPoint = carousel.scrollWidth / 2;
-
-        if (carousel.scrollLeft >= halfwayPoint) {
-          carousel.scrollLeft -= halfwayPoint;
-        }
-      }
-
-      animationFrameRef.current =
-        window.requestAnimationFrame(animate);
-    }
-
-    animationFrameRef.current =
-      window.requestAnimationFrame(animate);
-
-    return () => {
-      if (animationFrameRef.current) {
-        window.cancelAnimationFrame(
-          animationFrameRef.current
-        );
-      }
-
-      previousTimeRef.current = null;
-    };
-  }, [isPaused]);
-
   return (
     <section className="fortErieCommunitySection">
       <div className="fortErieCommunityContainer">
-        <div className="fortErieCommunityHeader">
+        <header className="fortErieCommunityHeader">
           <div className="fortErieCommunityHeading">
             <span className="fortErieCommunitySectionEyebrow">
               Connected to the Community
@@ -189,39 +133,26 @@ export default function FortErieCommunityCarousel() {
             <h2>Explore Fort Erie</h2>
 
             <p>
-              Quick access to local services, recreation,
-              community programs and important Town of Fort
-              Erie resources.
+              Quick access to local services, recreation, community programs,
+              and important Town of Fort Erie resources.
             </p>
           </div>
-        </div>
-
-        <div
-          className="fortErieCommunityCarousel"
-          ref={carouselRef}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onFocusCapture={() => setIsPaused(true)}
-          onBlurCapture={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
-          aria-label="Fort Erie community resources"
-        >
-          {[...communityLinks, ...communityLinks].map(
-            (item, index) => (
-              <CommunityCard
-                key={`${item.title}-${index}`}
-                item={item}
-                duplicate={index >= communityLinks.length}
-              />
-            )
-          )}
-        </div>
-
-        <p className="fortErieCommunityMobileHint">
-          Swipe to explore more community resources.
-        </p>
+        </header>
       </div>
+
+      <div
+        className="fortErieCommunityCarousel"
+        aria-label="Fort Erie community resources"
+      >
+        <div className="fortErieCommunityTrack">
+          <CommunityCardGroup />
+          <CommunityCardGroup duplicate />
+        </div>
+      </div>
+
+      <p className="fortErieCommunityMobileHint">
+        Tap a card to visit the official resource.
+      </p>
     </section>
   );
 }

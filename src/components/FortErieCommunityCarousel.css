@@ -17,10 +17,6 @@
 }
 
 .fortErieCommunityHeader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 40px;
   margin-bottom: 34px;
 }
 
@@ -57,29 +53,90 @@
 }
 
 /*
-  The carousel is now a continuous horizontal flex track.
-
-  JavaScript controls the constant movement, so scroll snapping
-  and smooth-scroll behaviour are intentionally not used here.
+  This is the stationary viewing window.
 */
 .fortErieCommunityCarousel {
-  display: flex;
+  position: relative;
   width: 100%;
-  gap: 24px;
-  padding: 4px 2px 24px;
-  overflow-x: hidden;
-  overflow-y: visible;
-  scrollbar-width: none;
-  touch-action: pan-y;
+  overflow: hidden;
 }
 
-.fortErieCommunityCarousel::-webkit-scrollbar {
-  display: none;
+/*
+  Soft fade at the left and right edges.
+*/
+.fortErieCommunityCarousel::before,
+.fortErieCommunityCarousel::after {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 24px;
+  width: clamp(20px, 5vw, 90px);
+  content: "";
+  pointer-events: none;
+}
+
+.fortErieCommunityCarousel::before {
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    #0b4d3a,
+    rgba(11, 77, 58, 0)
+  );
+}
+
+.fortErieCommunityCarousel::after {
+  right: 0;
+  background: linear-gradient(
+    270deg,
+    #0b4d3a,
+    rgba(11, 77, 58, 0)
+  );
+}
+
+/*
+  The entire track constantly moves left.
+
+  The two card groups are identical. Moving by -50% places
+  the duplicate group exactly where the original group began,
+  producing a seamless loop.
+*/
+.fortErieCommunityTrack {
+  display: flex;
+  width: max-content;
+  padding: 4px 0 24px;
+  animation: fortErieCommunityScroll 55s linear infinite;
+  will-change: transform;
+}
+
+/*
+  Pause while someone is hovering over the cards so links
+  remain easy to read and click.
+*/
+.fortErieCommunityCarousel:hover .fortErieCommunityTrack,
+.fortErieCommunityCarousel:focus-within .fortErieCommunityTrack {
+  animation-play-state: paused;
+}
+
+.fortErieCommunityGroup {
+  display: flex;
+  flex-shrink: 0;
+  gap: 24px;
+  padding-right: 24px;
+}
+
+@keyframes fortErieCommunityScroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
 .fortErieCommunityCard {
+  width: 360px;
   flex: 0 0 360px;
-  min-width: 0;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 22px;
@@ -108,9 +165,9 @@
 }
 
 .fortErieCommunityCardLink:focus-visible {
+  border-radius: 22px;
   outline: 4px solid #d9cba8;
   outline-offset: -4px;
-  border-radius: 22px;
 }
 
 .fortErieCommunityImageWrapper {
@@ -124,12 +181,11 @@
 .fortErieCommunityImageWrapper::after {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(
-      180deg,
-      transparent 55%,
-      rgba(4, 37, 27, 0.28)
-    );
+  background: linear-gradient(
+    180deg,
+    transparent 55%,
+    rgba(4, 37, 27, 0.28)
+  );
   content: "";
   pointer-events: none;
 }
@@ -138,12 +194,11 @@
   display: grid;
   padding: 38px;
   place-items: center;
-  background:
-    linear-gradient(
-      135deg,
-      #f2f5f1,
-      #e4eae5
-    );
+  background: linear-gradient(
+    135deg,
+    #f2f5f1,
+    #e4eae5
+  );
 }
 
 .fortErieCommunityImageWrapperLogo::after {
@@ -225,7 +280,8 @@
 
 .fortErieCommunityMobileHint {
   display: none;
-  margin: 6px 0 0;
+  width: min(100% - 30px, 1280px);
+  margin: 8px auto 0;
   color: rgba(255, 255, 255, 0.64);
   font-size: 0.82rem;
   text-align: center;
@@ -241,17 +297,20 @@
   }
 
   .fortErieCommunityHeader {
-    display: block;
     margin-bottom: 28px;
   }
 
-  .fortErieCommunityCarousel {
+  .fortErieCommunityTrack {
+    animation-duration: 48s;
+  }
+
+  .fortErieCommunityGroup {
     gap: 18px;
-    margin-right: -15px;
-    padding-right: 15px;
+    padding-right: 18px;
   }
 
   .fortErieCommunityCard {
+    width: min(320px, 84vw);
     flex-basis: min(320px, 84vw);
   }
 
@@ -273,11 +332,17 @@
     font-size: 0.96rem;
   }
 
-  .fortErieCommunityCarousel {
+  .fortErieCommunityTrack {
+    animation-duration: 44s;
+  }
+
+  .fortErieCommunityGroup {
     gap: 16px;
+    padding-right: 16px;
   }
 
   .fortErieCommunityCard {
+    width: 86vw;
     flex-basis: 86vw;
   }
 
@@ -292,18 +357,5 @@
 
   .fortErieCommunityCardContent h3 {
     font-size: 1.3rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .fortErieCommunityCarousel {
-    overflow-x: auto;
-    touch-action: auto;
-  }
-
-  .fortErieCommunityCard,
-  .fortErieCommunityImage,
-  .fortErieCommunityCardButton {
-    transition: none;
   }
 }
