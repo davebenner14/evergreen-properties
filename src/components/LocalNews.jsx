@@ -17,8 +17,6 @@ function NewsImage({ article }) {
     /*
       Very small source images become blurry when stretched
       across the full width of a news card.
-
-      These minimum dimensions can be adjusted later.
     */
     const imageIsTooSmall =
       image.naturalWidth < 500 || image.naturalHeight < 250;
@@ -82,6 +80,21 @@ function LocalNews() {
         ];
 
         /*
+          Only request articles published within the last 30 days.
+        */
+        const cutoffDate = new Date();
+
+        cutoffDate.setDate(cutoffDate.getDate() - 30);
+        cutoffDate.setHours(0, 0, 0, 0);
+
+        /*
+          The API expects the date in YYYY-MM-DD format.
+        */
+        const publishedAfter = cutoffDate
+          .toISOString()
+          .split("T")[0];
+
+        /*
           Create one API request for each local search.
         */
         const requests = searches.map((search) => {
@@ -89,14 +102,19 @@ function LocalNews() {
             `https://api.thenewsapi.com/v1/news/all` +
             `?api_token=${API_TOKEN}` +
             `&search=${encodeURIComponent(search)}` +
+            `&search_fields=title,description,keywords` +
             `&language=en` +
             `&locale=ca` +
+            `&published_after=${publishedAfter}` +
             `&limit=3`;
 
-          return fetch(url).then((response) => {
+          return fetch(url).then(async (response) => {
             if (!response.ok) {
+              const errorBody = await response.text();
+
               throw new Error(
-                `News API request failed with status ${response.status}`
+                `News API request failed with status ` +
+                  `${response.status}: ${errorBody}`
               );
             }
 
@@ -110,18 +128,32 @@ function LocalNews() {
         const results = await Promise.all(requests);
 
         /*
-          Combine the results from all three searches
-          into one single array.
+          Combine all three result sets.
+
+          We also apply our own date filter in the browser as
+          a second layer of protection against old articles.
         */
-        const combinedArticles = results.flatMap(
-          (result) => result.data || []
-        );
+        const combinedArticles = results
+          .flatMap((result) => result.data || [])
+          .filter((article) => {
+            if (!article.published_at) {
+              return false;
+            }
+
+            const publishedDate = new Date(article.published_at);
+
+            if (Number.isNaN(publishedDate.getTime())) {
+              return false;
+            }
+
+            return publishedDate >= cutoffDate;
+          });
 
         /*
           Remove duplicate stories.
 
-          The same news article could potentially appear
-          in more than one search result.
+          The same article could appear in more than one
+          Niagara-area search.
         */
         const uniqueArticles = Array.from(
           new Map(
@@ -133,18 +165,22 @@ function LocalNews() {
         );
 
         /*
-          Randomly shuffle all of the combined stories.
+          Sort by publication date before mixing the stories.
 
-          This prevents the cards from always appearing as:
-          Fort Erie
-          Fort Erie
-          Fort Erie
-          Niagara Falls
-          Niagara Falls
-          Niagara Falls
-          etc.
+          This ensures the newest available articles are handled
+          first before the final nine-card selection.
         */
-        const shuffledArticles = [...uniqueArticles];
+        const newestArticles = [...uniqueArticles].sort(
+          (articleA, articleB) =>
+            new Date(articleB.published_at).getTime() -
+            new Date(articleA.published_at).getTime()
+        );
+
+        /*
+          Randomly mix the recent stories so the grid is not
+          grouped by Fort Erie, Niagara Falls, and Niagara Region.
+        */
+        const shuffledArticles = [...newestArticles];
 
         for (let i = shuffledArticles.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
@@ -156,20 +192,21 @@ function LocalNews() {
         }
 
         /*
-          Display up to 9 randomly mixed stories.
+          Display up to nine recent, randomly mixed stories.
         */
         setArticles(shuffledArticles.slice(0, 9));
 
         /*
-          Helpful while we're developing locally.
-          You can view this in the browser console.
+          Helpful while developing locally.
         */
+        console.log("News cutoff date:", publishedAfter);
         console.log("Fort Erie news:", results[0]?.data || []);
         console.log("Niagara Falls news:", results[1]?.data || []);
         console.log("Niagara Region news:", results[2]?.data || []);
-        console.log("Combined local news:", combinedArticles);
-        console.log("Unique local news:", uniqueArticles);
-        console.log("Shuffled local news:", shuffledArticles);
+        console.log("Recent combined news:", combinedArticles);
+        console.log("Unique recent news:", uniqueArticles);
+        console.log("Newest recent news:", newestArticles);
+        console.log("Shuffled recent news:", shuffledArticles);
       } catch (err) {
         console.error("Unable to load local news:", err);
 
@@ -184,9 +221,6 @@ function LocalNews() {
 
   /*
     If the API fails, display a simple message.
-
-    We can change this later so the entire section
-    disappears automatically in production.
   */
   if (error) {
     return (
@@ -294,7 +328,8 @@ function LocalNews() {
           </div>
         ) : (
           <p className="localNewsLoading">
-            No local news stories are available right now.
+            No local news stories have been published within the
+            last 30 days.
           </p>
         )}
       </div>
