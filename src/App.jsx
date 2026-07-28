@@ -1,6 +1,7 @@
 import "./App.css";
 import { Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import LocalWeather from "./components/LocalWeather";
 import LocalNews from "./components/LocalNews";
 
 function App() {
@@ -121,6 +122,8 @@ function App() {
             </div>
           </div>
         </section>
+
+        <LocalWeather />
 
         <LocalNews />
 
