@@ -2,226 +2,6 @@ import { useEffect, useState } from "react";
 import "./LocalNews.css";
 
 /*
-  Words associated with community activities, positive local
-  developments, family events and feel-good stories.
-*/
-const POSITIVE_KEYWORDS = [
-  "event",
-  "events",
-  "festival",
-  "festivals",
-  "parade",
-  "parades",
-  "market",
-  "markets",
-  "concert",
-  "concerts",
-  "celebration",
-  "celebrates",
-  "celebrating",
-  "community",
-  "family",
-  "families",
-  "fundraiser",
-  "fundraising",
-  "volunteer",
-  "volunteers",
-  "award",
-  "awards",
-  "awarded",
-  "opening",
-  "opens",
-  "opened",
-  "launch",
-  "launched",
-  "tourism",
-  "arts",
-  "culture",
-  "cultural",
-  "sports",
-  "recreation",
-  "fair",
-  "fairs",
-  "busker",
-  "buskers",
-  "fireworks",
-  "holiday",
-  "food",
-  "donation",
-  "donates",
-  "donated",
-  "scholarship",
-  "success",
-  "successful",
-  "anniversary",
-  "milestone",
-  "attraction",
-  "attractions",
-  "performance",
-  "performances",
-  "exhibition",
-  "exhibitions",
-  "workshop",
-  "workshops",
-  "children",
-  "summer",
-  "weekend",
-  "celebrate",
-  "entertainment",
-  "music",
-  "garden",
-  "park",
-  "parks",
-  "trail",
-  "trails",
-  "restaurant",
-  "restaurants",
-  "local business",
-  "small business",
-  "grand opening",
-  "charity",
-  "heritage",
-];
-
-/*
-  These words lower an article's score.
-
-  They do not automatically remove every article because an
-  otherwise useful story may still contain one of these words.
-*/
-const NEGATIVE_KEYWORDS = [
-  "murder",
-  "murdered",
-  "homicide",
-  "killed",
-  "death",
-  "dead",
-  "shooting",
-  "shot",
-  "stabbing",
-  "stabbed",
-  "assault",
-  "charged",
-  "arrested",
-  "crime",
-  "criminal",
-  "collision",
-  "crash",
-  "fatal",
-  "fraud",
-  "scam",
-  "outbreak",
-  "victim",
-  "police investigation",
-  "wanted by police",
-  "missing person",
-  "drug trafficking",
-  "weapon",
-  "weapons",
-  "robbery",
-  "robbed",
-  "fire destroys",
-  "house fire",
-];
-
-/*
-  These are especially severe topics.
-
-  Articles containing these phrases are normally excluded unless
-  there are not enough other local stories to display.
-*/
-const BLOCKED_KEYWORDS = [
-  "murder",
-  "homicide",
-  "shooting",
-  "stabbing",
-  "fatal collision",
-  "fatal crash",
-  "sexual assault",
-  "child abuse",
-  "human trafficking",
-  "missing person",
-];
-
-/*
-  Combines all useful article text into one searchable string.
-*/
-function getArticleText(article) {
-  const keywords = Array.isArray(article.keywords)
-    ? article.keywords.join(" ")
-    : article.keywords;
-
-  const categories = Array.isArray(article.categories)
-    ? article.categories.join(" ")
-    : article.categories;
-
-  return [
-    article.title,
-    article.description,
-    article.snippet,
-    keywords,
-    categories,
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
-}
-
-/*
-  Gives positive community stories a higher score and gives
-  negative or disturbing stories a lower score.
-*/
-function getArticleScore(article) {
-  const articleText = getArticleText(article);
-  let score = 0;
-
-  POSITIVE_KEYWORDS.forEach((keyword) => {
-    if (articleText.includes(keyword)) {
-      score += 3;
-    }
-  });
-
-  NEGATIVE_KEYWORDS.forEach((keyword) => {
-    if (articleText.includes(keyword)) {
-      score -= 5;
-    }
-  });
-
-  /*
-    Give newer articles a small bonus.
-
-    This helps prevent a somewhat-positive older story from
-    beating a very recent community story.
-  */
-  const publishedDate = new Date(article.published_at);
-  const ageInDays =
-    (Date.now() - publishedDate.getTime()) /
-    (1000 * 60 * 60 * 24);
-
-  if (ageInDays <= 7) {
-    score += 4;
-  } else if (ageInDays <= 30) {
-    score += 2;
-  } else if (ageInDays <= 60) {
-    score += 1;
-  }
-
-  return score;
-}
-
-/*
-  Returns true when an article contains a particularly disturbing
-  topic that does not fit the positive community tone of the site.
-*/
-function containsBlockedTopic(article) {
-  const articleText = getArticleText(article);
-
-  return BLOCKED_KEYWORDS.some((keyword) =>
-    articleText.includes(keyword)
-  );
-}
-
-/*
   Handles each article image independently.
 
   If an image is missing, broken, blocked by the publisher,
@@ -239,7 +19,8 @@ function NewsImage({ article }) {
       across the full width of a news card.
     */
     const imageIsTooSmall =
-      image.naturalWidth < 500 || image.naturalHeight < 250;
+      image.naturalWidth < 500 ||
+      image.naturalHeight < 250;
 
     if (imageIsTooSmall) {
       setImageFailed(true);
@@ -259,7 +40,7 @@ function NewsImage({ article }) {
           aria-hidden="true"
         />
 
-        <span>Around Niagara</span>
+        <span>Local News</span>
       </div>
     );
   }
@@ -267,7 +48,7 @@ function NewsImage({ article }) {
   return (
     <img
       src={article.image_url}
-      alt={article.title || "Around Niagara story"}
+      alt={article.title || "Local news story"}
       className="newsCardImage"
       loading="lazy"
       decoding="async"
@@ -276,6 +57,38 @@ function NewsImage({ article }) {
       onError={handleImageError}
     />
   );
+}
+
+/*
+  Creates a normalized version of an article title.
+
+  This helps remove duplicate stories when the same article
+  appears in more than one search result.
+*/
+function normalizeTitle(title = "") {
+  return title
+    .toLowerCase()
+    .replace(/[^\w\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/*
+  Randomly shuffles an array without changing the original.
+*/
+function shuffleArray(items) {
+  const shuffledItems = [...items];
+
+  for (let i = shuffledItems.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [shuffledItems[i], shuffledItems[j]] = [
+      shuffledItems[j],
+      shuffledItems[i],
+    ];
+  }
+
+  return shuffledItems;
 }
 
 function LocalNews() {
@@ -290,126 +103,163 @@ function LocalNews() {
           "0oLO56rvYVm8ITpWOOwIP4VtRctpIuIdyCUv9vgz";
 
         /*
-          These searches intentionally focus on events, activities,
-          community stories and positive local developments.
+          We use five searches:
 
-          The final two searches provide a small pool of broader
-          local news so important stories are not completely hidden.
+          1. General Fort Erie coverage
+          2. General Niagara Falls coverage
+          3. General Niagara Region coverage
+          4. Niagara This Week Fort Erie coverage
+          5. Niagara This Week Niagara Falls coverage
+
+          The Niagara This Week searches are restricted to
+          niagarathisweek.com using the API's domains parameter.
         */
         const searches = [
           {
-            label: "Fort Erie events",
-            query:
-              "Fort Erie Ontario events festival market parade community",
-            type: "positive",
-          },
-          {
-            label: "Niagara Falls events",
-            query:
-              "Niagara Falls Ontario events festival concert community",
-            type: "positive",
-          },
-          {
-            label: "Niagara Region events",
-            query:
-              "Niagara Region Ontario events family festival market",
-            type: "positive",
-          },
-          {
-            label: "Niagara community",
-            query:
-              "Niagara Ontario community fundraiser volunteer award opening",
-            type: "positive",
-          },
-          {
-            label: "Fort Erie general news",
+            label: "Fort Erie general",
             query: "Fort Erie Ontario",
-            type: "general",
           },
           {
-            label: "Niagara general news",
-            query: "Niagara Falls Niagara Region Ontario",
-            type: "general",
+            label: "Niagara Falls general",
+            query: "Niagara Falls Ontario",
+          },
+          {
+            label: "Niagara Region general",
+            query: "Niagara Region Ontario",
+          },
+          {
+            label: "Niagara This Week Fort Erie",
+            query: "Fort Erie",
+            domain: "niagarathisweek.com",
+          },
+          {
+            label: "Niagara This Week Niagara Falls",
+            query: "Niagara Falls",
+            domain: "niagarathisweek.com",
           },
         ];
 
         /*
           Search within the last 90 days.
 
-          Local event coverage can be less frequent than general news,
-          so 90 days provides a better pool without pulling in stories
-          that are several years old.
+          Thirty days produced too few local results, while
+          90 days should still keep the feed reasonably current.
         */
         const cutoffDate = new Date();
 
         cutoffDate.setDate(cutoffDate.getDate() - 90);
         cutoffDate.setHours(0, 0, 0, 0);
 
+        /*
+          The API expects YYYY-MM-DD.
+        */
         const publishedAfter = cutoffDate
           .toISOString()
           .split("T")[0];
 
         /*
-          Create one request for each community or general-news search.
+          Create one API request for every search.
         */
-        const requests = searches.map((search) => {
-          const url =
-            `https://api.thenewsapi.com/v1/news/all` +
-            `?api_token=${API_TOKEN}` +
-            `&search=${encodeURIComponent(search.query)}` +
-            `&search_fields=title,description,keywords` +
-            `&language=en` +
-            `&locale=ca` +
-            `&published_after=${publishedAfter}` +
-            `&sort=published_at` +
-            `&limit=3`;
-
-          return fetch(url).then(async (response) => {
-            if (!response.ok) {
-              const errorBody = await response.text();
-
-              throw new Error(
-                `News API request failed with status ` +
-                  `${response.status}: ${errorBody}`
-              );
-            }
-
-            const result = await response.json();
-
-            /*
-              Mark each article with the kind of search that found it.
-
-              This helps us prioritize the intentional community searches.
-            */
-            return {
-              ...result,
-              searchLabel: search.label,
-              searchType: search.type,
-              data: (result.data || []).map((article) => ({
-                ...article,
-                searchType: search.type,
-                searchLabel: search.label,
-              })),
-            };
+        const requests = searches.map(async (search) => {
+          const params = new URLSearchParams({
+            api_token: API_TOKEN,
+            search: search.query,
+            search_fields: "title,description,keywords,main_text",
+            language: "en",
+            locale: "ca",
+            published_after: publishedAfter,
+            sort: "published_at",
+            limit: "3",
           });
+
+          /*
+            Only include the domains parameter for the dedicated
+            Niagara This Week searches.
+          */
+          if (search.domain) {
+            params.set("domains", search.domain);
+          }
+
+          const url =
+            `https://api.thenewsapi.com/v1/news/all?${params.toString()}`;
+
+          const response = await fetch(url);
+
+          if (!response.ok) {
+            const errorBody = await response.text();
+
+            throw new Error(
+              `${search.label} request failed with status ` +
+                `${response.status}: ${errorBody}`
+            );
+          }
+
+          const result = await response.json();
+
+          /*
+            Add internal information showing which search produced
+            each article. This is helpful while testing.
+          */
+          return {
+            label: search.label,
+            data: (result.data || []).map((article) => ({
+              ...article,
+              searchLabel: search.label,
+              isNiagaraThisWeek:
+                article.domain === "niagarathisweek.com" ||
+                article.url?.includes("niagarathisweek.com"),
+            })),
+          };
         });
 
         /*
-          Run all six requests simultaneously.
+          Promise.allSettled allows the remaining requests to work
+          even if one particular search or source fails.
         */
-        const results = await Promise.all(requests);
+        const settledResults = await Promise.allSettled(requests);
+
+        const successfulResults = settledResults
+          .filter((result) => result.status === "fulfilled")
+          .map((result) => result.value);
+
+        const failedResults = settledResults.filter(
+          (result) => result.status === "rejected"
+        );
+
+        failedResults.forEach((result) => {
+          console.warn(
+            "A local-news search failed:",
+            result.reason
+          );
+        });
 
         /*
-          Combine the result sets and reject invalid or old dates.
+          If every request failed, show the error state.
         */
-        const combinedArticles = results
+        if (successfulResults.length === 0) {
+          throw new Error("All local-news requests failed.");
+        }
+
+        /*
+          Combine all successful results.
+
+          We also apply our own date filter in the browser so an
+          incorrectly dated or old article cannot reach the page.
+        */
+        const combinedArticles = successfulResults
           .flatMap((result) => result.data || [])
           .filter((article) => {
-            if (!article.url || !article.title || !article.published_at) {
+            if (
+              !article.url ||
+              !article.title ||
+              !article.published_at
+            ) {
               return false;
             }
 
-            const publishedDate = new Date(article.published_at);
+            const publishedDate = new Date(
+              article.published_at
+            );
 
             if (Number.isNaN(publishedDate.getTime())) {
               return false;
@@ -419,10 +269,10 @@ function LocalNews() {
           });
 
         /*
-          Remove duplicate stories.
+          Remove duplicates.
 
-          When the same article appears in multiple searches, prefer
-          the positive/community version of the article metadata.
+          We check UUID, URL and normalized title because the same
+          story can sometimes have slightly different API records.
         */
         const articleMap = new Map();
 
@@ -430,69 +280,56 @@ function LocalNews() {
           const articleKey =
             article.uuid ||
             article.url ||
-            `${article.title}-${article.published_at}`;
+            normalizeTitle(article.title);
 
-          const existingArticle = articleMap.get(articleKey);
-
-          if (
-            !existingArticle ||
-            article.searchType === "positive"
-          ) {
+          if (!articleMap.has(articleKey)) {
             articleMap.set(articleKey, article);
           }
         });
 
-        const uniqueArticles = Array.from(articleMap.values());
+        /*
+          Run a second title-based duplicate check.
+        */
+        const titleMap = new Map();
+
+        Array.from(articleMap.values()).forEach((article) => {
+          const titleKey = normalizeTitle(article.title);
+
+          const existingArticle = titleMap.get(titleKey);
+
+          /*
+            If two records have the same title, prefer the
+            Niagara This Week version.
+          */
+          if (
+            !existingArticle ||
+            article.isNiagaraThisWeek
+          ) {
+            titleMap.set(titleKey, article);
+          }
+        });
+
+        const uniqueArticles = Array.from(
+          titleMap.values()
+        );
 
         /*
-          Add an internal score to each story so we can inspect the
-          results while testing.
+          Separate Niagara This Week stories from the broader
+          local-news pool.
+
+          We prioritize Niagara This Week because its community
+          pages better match the tone you want.
         */
-        const scoredArticles = uniqueArticles.map((article) => ({
-          ...article,
-          communityScore: getArticleScore(article),
-          blockedTopic: containsBlockedTopic(article),
-        }));
-
-        /*
-          Positive stories must have a score above zero and cannot
-          contain one of the especially disturbing blocked topics.
-        */
-        const positiveArticles = scoredArticles
-          .filter(
-            (article) =>
-              article.communityScore > 0 &&
-              !article.blockedTopic
-          )
-          .sort((articleA, articleB) => {
-            const scoreDifference =
-              articleB.communityScore -
-              articleA.communityScore;
-
-            if (scoreDifference !== 0) {
-              return scoreDifference;
-            }
-
-            return (
+        const niagaraThisWeekArticles = uniqueArticles
+          .filter((article) => article.isNiagaraThisWeek)
+          .sort(
+            (articleA, articleB) =>
               new Date(articleB.published_at).getTime() -
               new Date(articleA.published_at).getTime()
-            );
-          });
+          );
 
-        /*
-          The general-news group includes useful neutral stories, but
-          rejects the most disturbing subjects.
-
-          Lower-scoring articles are allowed here so that major local
-          updates can still appear in moderation.
-        */
-        const generalArticles = scoredArticles
-          .filter(
-            (article) =>
-              article.communityScore <= 0 &&
-              !article.blockedTopic &&
-              article.communityScore >= -5
-          )
+        const generalArticles = uniqueArticles
+          .filter((article) => !article.isNiagaraThisWeek)
           .sort(
             (articleA, articleB) =>
               new Date(articleB.published_at).getTime() -
@@ -500,113 +337,82 @@ function LocalNews() {
           );
 
         /*
-          Aim for:
-          - Six positive/community stories
-          - Three neutral or important general stories
+          Try to include up to six Niagara This Week stories,
+          then fill the remaining spaces with general stories.
         */
-        const selectedPositiveArticles = positiveArticles.slice(0, 6);
-        const selectedGeneralArticles = generalArticles.slice(0, 3);
+        const selectedNiagaraThisWeek =
+          niagaraThisWeekArticles.slice(0, 6);
 
-        let selectedArticles = [
-          ...selectedPositiveArticles,
+        const remainingSpaces =
+          9 - selectedNiagaraThisWeek.length;
+
+        const selectedGeneralArticles =
+          generalArticles.slice(0, remainingSpaces);
+
+        const selectedArticles = [
+          ...selectedNiagaraThisWeek,
           ...selectedGeneralArticles,
         ];
 
         /*
-          If we do not yet have nine stories, fill the remaining spots
-          with the best unused, non-blocked stories.
-
-          Positive stories still appear first in this fallback pool.
+          Randomly mix the selected stories so they are not
+          visibly grouped by source.
         */
-        if (selectedArticles.length < 9) {
-          const selectedKeys = new Set(
-            selectedArticles.map(
-              (article) => article.uuid || article.url
-            )
-          );
+        const shuffledArticles =
+          shuffleArray(selectedArticles);
 
-          const fallbackArticles = scoredArticles
-            .filter((article) => {
-              const articleKey = article.uuid || article.url;
-
-              return (
-                !selectedKeys.has(articleKey) &&
-                !article.blockedTopic &&
-                article.communityScore >= -5
-              );
-            })
-            .sort((articleA, articleB) => {
-              const scoreDifference =
-                articleB.communityScore -
-                articleA.communityScore;
-
-              if (scoreDifference !== 0) {
-                return scoreDifference;
-              }
-
-              return (
-                new Date(articleB.published_at).getTime() -
-                new Date(articleA.published_at).getTime()
-              );
-            });
-
-          selectedArticles = [
-            ...selectedArticles,
-            ...fallbackArticles.slice(
-              0,
-              9 - selectedArticles.length
-            ),
-          ];
-        }
+        setArticles(shuffledArticles);
 
         /*
-          Mix the selected articles so all positive stories do not
-          appear in one block followed by all general stories.
-        */
-        const shuffledArticles = [...selectedArticles];
+          Development logs.
 
-        for (let i = shuffledArticles.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-
-          [shuffledArticles[i], shuffledArticles[j]] = [
-            shuffledArticles[j],
-            shuffledArticles[i],
-          ];
-        }
-
-        setArticles(shuffledArticles.slice(0, 9));
-
-        /*
-          Testing information.
-
-          Open the browser console to see which search produced each
-          article and why it was selected or rejected.
+          Check the browser console to confirm whether The News API
+          has Niagara This Week indexed and which stories it returns.
         */
         console.log("News cutoff date:", publishedAfter);
 
-        results.forEach((result) => {
+        successfulResults.forEach((result) => {
           console.log(
-            `${result.searchLabel}:`,
+            `${result.label}:`,
             result.data || []
           );
         });
 
-        console.table(
-          scoredArticles.map((article) => ({
-            title: article.title,
-            source: article.source,
-            date: article.published_at,
-            score: article.communityScore,
-            blocked: article.blockedTopic,
-            search: article.searchLabel,
-          }))
+        console.log(
+          "Failed news searches:",
+          failedResults
         );
 
-        console.log("Positive articles:", positiveArticles);
-        console.log("General articles:", generalArticles);
-        console.log("Selected articles:", shuffledArticles);
+        console.log(
+          "Combined recent articles:",
+          combinedArticles
+        );
+
+        console.log(
+          "Unique articles:",
+          uniqueArticles
+        );
+
+        console.log(
+          "Niagara This Week articles:",
+          niagaraThisWeekArticles
+        );
+
+        console.log(
+          "General articles:",
+          generalArticles
+        );
+
+        console.log(
+          "Final displayed articles:",
+          shuffledArticles
+        );
       } catch (err) {
-        console.error("Unable to load Around Niagara stories:", err);
+        console.error(
+          "Unable to load local news:",
+          err
+        );
+
         setError(true);
       } finally {
         setLoading(false);
@@ -616,20 +422,23 @@ function LocalNews() {
     fetchLocalNews();
   }, []);
 
+  /*
+    If every API request fails, display a simple message.
+  */
   if (error) {
     return (
       <section className="localNewsSection">
         <div className="localNewsInner">
           <div className="localNewsHeader">
             <p className="eyebrow dark">
-              Events & Community
+              Local News & Community
             </p>
 
             <h2>Around Niagara.</h2>
           </div>
 
           <p className="localNewsLoading">
-            Around Niagara is temporarily unavailable.
+            Local news is temporarily unavailable.
           </p>
         </div>
       </section>
@@ -641,28 +450,32 @@ function LocalNews() {
       <div className="localNewsInner">
         <div className="localNewsHeader">
           <p className="eyebrow dark">
-            Events & Community
+            Local News & Community
           </p>
 
           <h2>Around Niagara.</h2>
 
           <p>
-            Discover upcoming events, community celebrations,
-            local attractions and noteworthy stories from Fort Erie,
-            Niagara Falls and across the Niagara Region.
+            Discover community stories, local events and important
+            updates from Fort Erie, Niagara Falls and communities
+            across the Niagara Region.
           </p>
         </div>
 
         {loading ? (
           <p className="localNewsLoading">
-            Finding what&apos;s happening around Niagara...
+            Loading local news...
           </p>
         ) : articles.length > 0 ? (
           <div className="localNewsGrid">
             {articles.map((article) => (
               <article
                 className="newsCard"
-                key={article.uuid || article.url}
+                key={
+                  article.uuid ||
+                  article.url ||
+                  article.title
+                }
               >
                 <a
                   href={article.url}
@@ -703,9 +516,11 @@ function LocalNews() {
                     </a>
                   </h3>
 
-                  {(article.description || article.snippet) && (
+                  {(article.description ||
+                    article.snippet) && (
                     <p>
-                      {article.description || article.snippet}
+                      {article.description ||
+                        article.snippet}
                     </p>
                   )}
 
@@ -723,7 +538,7 @@ function LocalNews() {
           </div>
         ) : (
           <p className="localNewsLoading">
-            No recent community stories are available right now.
+            No recent local stories are available right now.
           </p>
         )}
       </div>
